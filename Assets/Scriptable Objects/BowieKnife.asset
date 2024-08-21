@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: "\u2605Bowie Knife\u2605"
   skinName: 
-  skinRarity: {r: 0.93725497, g: 0.8431373, b: 0.18823531, a: 1}
+  skinRarity:
+    serializedVersion: 2
+    rgba: 4281849839
   skinImage: {fileID: 21300000, guid: 977f9a8938ffeae4abd3eab88d202aa0, type: 3}
   weaponBackground: {fileID: 21300000, guid: 7f99ab977540726438be3f711cf54ffe, type: 3}

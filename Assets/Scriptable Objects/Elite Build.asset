@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: AWP
   skinName: Elite Build
-  skinRarity: {r: 0.77647066, g: 0.17254902, b: 0.83921576, a: 1}
+  skinRarity:
+    serializedVersion: 2
+    rgba: 4291637438
   skinImage: {fileID: 21300000, guid: e24d7784bede13444b354e64e56d1792, type: 3}
   weaponBackground: {fileID: 21300000, guid: 7f99ab977540726438be3f711cf54ffe, type: 3}
