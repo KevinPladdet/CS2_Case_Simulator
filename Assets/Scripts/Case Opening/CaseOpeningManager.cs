@@ -2,24 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class CaseOpeningManager : MonoBehaviour
 {
-    public GameObject weaponShowcasePrefab; // Empty WeaponShowcase prefab
-    public int amountOfSkins; // The number of WeaponShowcases it will spawn
-    public float spacing = 30f; // The spacing between each WeaponShowcase (should be 30)
-    public Transform openingContents; // Every WeaponShowcase will be under this transform
+    [Header("References")]
+    public GameObject weaponShowcasePrefab; // Empty Weapon Showcase prefab
+    public Transform openingContents; // Every Weapon Showcase will be under this transform
     public Transform winLine; // The WinLine that indicates the winning position
-    public float initialSpeed = 3000f; // Initial speed of the scrolling
-    public float slowdownDistance = 500f; // Distance from the WinLine where the slowdown starts
-    public float minimumSpeed = 200f; // The minimum speed the scrolling can go
+    public GameObject floatValueObject;
 
-    public float winLineOffDistance;
+    // These ones are enabled / disabled to go through menus
+    [Header("Menu Stuff")]
+    public GameObject CaseMenu; // The menu where you see the case and all the skins
+    public GameObject caseMenuBackground; // Enables when you go back to the menu
+    public GameObject OpeningMenu; // Contains "coverBackground", "WinLine" and "SkinFloatValue"
 
-    public List<ShowcaseWeapon> possibleSkins; // List of every skin from the case
+    [Header("Case Settings")]
+    [SerializeField] private int amountOfSkins; // The number of Weapon Showcases it will spawn
+    private float spacing = 373f; // The spacing between each WeaponShowcase (should be 373)
+    [SerializeField] private float initialSpeed = 5000f; // Initial speed of the scrolling
+    [SerializeField] private float slowdownDistance = 6000f; // Distance from the WinLine where the slowdown starts
+    [SerializeField] private float minimumSpeed = 200f; // The minimum speed the scrolling can go
+
+    private GameObject winningShowcase;
+
+    private float winLineOffDistance; // This decides where it lands on the Winning Showcase
+    private float floatValue; // Float values is one of the best things in CS
+
+    [Header("Cases")]
+    // Different cases (for now there is only the wildfire case)
+    public List<ShowcaseWeapon> wildfireCaseSkins; // List of every skin from the case
 
     private Dictionary<Color32, float> rarityDropChances;
-    private int winningIndex; // The index of the winning WeaponShowcase
+    private int winningIndex; // The index of the winning Weapon Showcase
 
     void Start()
     {
@@ -33,12 +49,30 @@ public class CaseOpeningManager : MonoBehaviour
             { new Color32(239, 215, 55, 255), 0.26f }    // Gold
         };
 
+        SpawnWeaponShowcases();   
+    }
+
+    public void OpenCase()
+    {
+        CaseMenu.SetActive(false);
+        caseMenuBackground.SetActive(false);
+
+        OpeningMenu.SetActive(true);
+
         winLineOffDistance = Random.Range(-0.75f, 0.15f);
 
-        SpawnWeaponShowcases();
+        floatValue = Random.Range(0f, 1f);
 
-        // Start the case opening process
         StartCoroutine(CaseOpeningRoutine());
+    }
+
+    public void ExitCase()
+    {
+        floatValueObject.SetActive(false);
+        OpeningMenu.SetActive(false);
+
+        CaseMenu.SetActive(true);
+        caseMenuBackground.SetActive(true);
     }
 
     void Update()
@@ -78,11 +112,11 @@ public class CaseOpeningManager : MonoBehaviour
         }
     }
 
-    ShowcaseWeapon GetRandomSkinByRarity()
+    ShowcaseWeapon GetRandomSkinByRarity() // This method is for the wildfire case, copy this method to make a new case
     {
         float totalWeight = 0f;
 
-        foreach (ShowcaseWeapon skin in possibleSkins)
+        foreach (ShowcaseWeapon skin in wildfireCaseSkins)
         {
             totalWeight += rarityDropChances[skin.skinRarity];
         }
@@ -90,7 +124,7 @@ public class CaseOpeningManager : MonoBehaviour
         float randomValue = Random.Range(0, totalWeight);
         float cumulativeWeight = 0f;
 
-        foreach (ShowcaseWeapon skin in possibleSkins)
+        foreach (ShowcaseWeapon skin in wildfireCaseSkins)
         {
             cumulativeWeight += rarityDropChances[skin.skinRarity];
             if (randomValue < cumulativeWeight)
@@ -99,7 +133,7 @@ public class CaseOpeningManager : MonoBehaviour
             }
         }
 
-        return possibleSkins[0];
+        return wildfireCaseSkins[0];
     }
 
     IEnumerator CaseOpeningRoutine()
@@ -153,9 +187,6 @@ public class CaseOpeningManager : MonoBehaviour
             // Calculate the distance to the WinLine
             float distanceToWinLine = Mathf.Abs(winLineCenterX - winningShowcaseCenterX);
 
-            // Log the distance to the console
-            //Debug.Log($"Distance to WinLine: {distanceToWinLine}");
-            Debug.Log("Winline: " + winLineOffDistance);
             // Adjust the speed based on the distance
             if (distanceToWinLine <= slowdownDistance)
             {
@@ -177,13 +208,35 @@ public class CaseOpeningManager : MonoBehaviour
             // Check if the WinLine is within the target range
             if (winLine.position.x >= minTargetX && winLine.position.x <= maxTargetX)
             {
-                Debug.Log("WinLine is within the target range!");
+                // Winline has stopped and the skin has been pulled
+                pulledSkin();
 
-                // Stop the coroutine
                 yield break;
             }
 
             yield return null; // Wait until the next frame
         }
+    }
+
+    void pulledSkin()
+    {
+        floatValueObject.SetActive(true);
+        floatValueObject.GetComponent<TextMeshProUGUI>().text = "" + floatValue.ToString("F7");
+        winningShowcase = GameObject.Find("Winning Showcase");
+
+        TextMeshProUGUI[] textComponents = winningShowcase.GetComponentsInChildren<TextMeshProUGUI>();
+
+        // Loop through children and enable both TextMeshProUGUI
+        foreach (TextMeshProUGUI textComponent in textComponents)
+        {
+            if (textComponent.gameObject.name == "WeaponTypeText" ||
+                textComponent.gameObject.name == "WeaponSkinText")
+            {
+                textComponent.enabled = true;
+            }
+        }
+
+        // Also make it so that it shows the weapon type and skin name (enable gameobjects)
+        // Maybe make it here so that there is a go back / close button which will bring you back to the case menu
     }
 }
