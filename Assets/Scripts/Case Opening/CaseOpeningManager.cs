@@ -14,6 +14,8 @@ public class CaseOpeningManager : MonoBehaviour
     public float slowdownDistance = 500f; // Distance from the WinLine where the slowdown starts
     public float minimumSpeed = 200f; // The minimum speed the scrolling can go
 
+    public float winLineOffDistance;
+
     public List<ShowcaseWeapon> possibleSkins; // List of every skin from the case
 
     private Dictionary<Color32, float> rarityDropChances;
@@ -30,6 +32,8 @@ public class CaseOpeningManager : MonoBehaviour
             { new Color32(206, 73, 74, 255), 0.64f },    // Red
             { new Color32(239, 215, 55, 255), 0.26f }    // Gold
         };
+
+        winLineOffDistance = Random.Range(-0.75f, 0.15f);
 
         SpawnWeaponShowcases();
 
@@ -138,11 +142,7 @@ public class CaseOpeningManager : MonoBehaviour
             }
 
             // Calculate the center of the winning showcase in world coordinates
-            Vector3 localCenter = new Vector3(
-                winningShowcaseRect.rect.width * (0.5f - winningShowcaseRect.pivot.x),
-                0,
-                0
-            );
+            Vector3 localCenter = new Vector3(winningShowcaseRect.rect.width * (winLineOffDistance + winningShowcaseRect.pivot.x), 0, 0);
 
             // Convert local center to world position
             Vector3 worldCenter = winningShowcaseRect.TransformPoint(localCenter);
@@ -154,8 +154,8 @@ public class CaseOpeningManager : MonoBehaviour
             float distanceToWinLine = Mathf.Abs(winLineCenterX - winningShowcaseCenterX);
 
             // Log the distance to the console
-            Debug.Log($"Distance to WinLine: {distanceToWinLine}");
-
+            //Debug.Log($"Distance to WinLine: {distanceToWinLine}");
+            Debug.Log("Winline: " + winLineOffDistance);
             // Adjust the speed based on the distance
             if (distanceToWinLine <= slowdownDistance)
             {
@@ -170,15 +170,14 @@ public class CaseOpeningManager : MonoBehaviour
                 speed = initialSpeed;
             }
 
-            // Stop when the winning showcase is close enough
-            if (distanceToWinLine < 0.4f && speed <= minimumSpeed + 0.4f)
-            {
-                Debug.Log("Winning showcase reached the WinLine!");
+            // Determine the target range for the WinLine to stop within
+            float minTargetX = winningShowcaseCenterX - showcasePositionRect.rect.width * 0.5f;
+            float maxTargetX = winningShowcaseCenterX + showcasePositionRect.rect.width * 0.5f;
 
-                // Align the center of the winning showcase with the WinLine
-                Vector3 newPosition = winningShowcaseRect.position;
-                newPosition.x = winLineCenterX;
-                winningShowcaseRect.position = newPosition;
+            // Check if the WinLine is within the target range
+            if (winLine.position.x >= minTargetX && winLine.position.x <= maxTargetX)
+            {
+                Debug.Log("WinLine is within the target range!");
 
                 // Stop the coroutine
                 yield break;
