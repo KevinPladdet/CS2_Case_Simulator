@@ -9,7 +9,9 @@ public class CaseOpeningManager : MonoBehaviour
     public float spacing = 30f; // The spacing between each WeaponShowcase (should be 30)
     public Transform openingContents; // Every WeaponShowcase will be under this transform
     public Transform winLine; // The WinLine that indicates the winning position
-    public float initialSpeed = 500f; // Initial speed of the scrolling
+    public float initialSpeed = 3000f; // Initial speed of the scrolling
+    public float slowdownDistance = 500f; // Distance from the WinLine where the slowdown starts
+    public float minimumSpeed = 200f; // The minimum speed the scrolling can go
 
     public List<ShowcaseWeapon> possibleSkins; // List of every skin from the case
 
@@ -40,7 +42,7 @@ public class CaseOpeningManager : MonoBehaviour
 
         for (int i = 0; i < amountOfSkins; i++)
         {
-            Vector3 position = new Vector3(startX + (i * spacing), 2.1f, 0);
+            Vector3 position = new Vector3(startX + (i * spacing), 15.8f, 0);
             GameObject showcase = Instantiate(weaponShowcasePrefab, position, Quaternion.identity);
             showcase.transform.SetParent(openingContents, false);
 
@@ -89,11 +91,6 @@ public class CaseOpeningManager : MonoBehaviour
 
     IEnumerator CaseOpeningRoutine()
     {
-        float constantSpeedDuration = 2f; // Duration of constant speed
-        float slowdownDuration = 4f; // Duration of slowdown
-        float totalDuration = constantSpeedDuration + slowdownDuration; // Total time for the routine
-        float timer = 0f; // Timer to track elapsed time
-
         float speed = initialSpeed;
 
         // Calculate the width of a WeaponShowcase using RectTransform (if it's a UI element)
@@ -110,56 +107,50 @@ public class CaseOpeningManager : MonoBehaviour
 
         while (true)
         {
-            timer += Time.deltaTime; // Update timer
-
-            if (timer <= constantSpeedDuration)
-            {
-                // Constant speed phase
-                speed = initialSpeed;
-            }
-            else if (timer <= totalDuration)
-            {
-                // Gradual slowdown phase
-                float t = (timer - constantSpeedDuration) / slowdownDuration; // Normalize time
-                speed = Mathf.Lerp(initialSpeed, 0f, t); // Lerp speed to zero
-            }
-            else
-            {
-                // Ensure speed is exactly zero after total duration
-                speed = 0f;
-            }
-
+            // Move all showcases with initial speed
             foreach (Transform showcase in openingContents)
             {
                 showcase.transform.Translate(Vector3.left * speed * Time.deltaTime);
             }
 
+            // Check the distance from the winning showcase to the win line
             Transform winningShowcase = openingContents.GetChild(winningIndex);
-            Transform showcasePosition = winningShowcase.Find("ShowcasePosition"); // Find the "ShowcasePosition" child
+            Transform showcasePosition = winningShowcase.Find("ShowcasePosition"); // Reference the "ShowcasePosition" child
+            if (showcasePosition == null)
+            {
+                Debug.LogError("Winning Showcase does not have a child named 'ShowcasePosition'.");
+                yield break;
+            }
+
             RectTransform winningShowcaseRect = showcasePosition.GetComponent<RectTransform>();
             if (winningShowcaseRect == null)
             {
-                Debug.LogError("Winning Showcase's 'ShowcasePosition' does not have a RectTransform.");
+                Debug.LogError("ShowcasePosition does not have a RectTransform.");
                 yield break;
             }
 
             float winningShowcaseCenterX = winningShowcaseRect.position.x + (showcaseWidth / 2f);
             float distanceToWinLine = Mathf.Abs(winLineCenterX - winningShowcaseCenterX);
 
-            // Check if the winning showcase is very close to the win line and speed is very low
-            if (distanceToWinLine < 0.1f && speed <= 0.1f)
+            // Log the distance to the console
+            Debug.Log($"Distance to WinLine: {distanceToWinLine}");
+
+            // Adjust the speed based on the distance
+            if (distanceToWinLine <= slowdownDistance)
+            {
+                // Normalize the distance to a value between 0 and 1
+                float t = Mathf.Clamp01(distanceToWinLine / slowdownDistance);
+                // Lerp speed from initialSpeed to minimumSpeed based on the normalized distance
+                speed = Mathf.Lerp(minimumSpeed, initialSpeed, t);
+            }
+
+            // Stop when the winning showcase is close enough
+            if (distanceToWinLine < 0.1f && speed < minimumSpeed + 0.1f)
             {
                 Debug.Log("Winning showcase reached the WinLine!");
                 winningShowcaseRect.position = new Vector3(winLineCenterX - (showcaseWidth / 2f), winningShowcaseRect.position.y, winningShowcaseRect.position.z);
-                yield break; // Stop the routine
+                yield break;
             }
-
-            // Debug log for tracking time and position
-            Debug.Log($"Time Elapsed: {timer:F2}s");
-            Debug.Log($"Winning Showcase Position: {winningShowcaseRect.position.x}");
-            Debug.Log($"WinLine Position: {winLineCenterX}");
-            Debug.Log($"Distance to WinLine: {distanceToWinLine}");
-            Debug.Log($"Current Speed: {speed}");
 
             yield return null; // Wait until the next frame
         }
