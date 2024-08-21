@@ -6,12 +6,15 @@ public class CaseOpeningManager : MonoBehaviour
 {
     public GameObject weaponShowcasePrefab; // Empty WeaponShowcase prefab
     public int amountOfSkins; // The number of WeaponShowcases it will spawn
-    public float spacing; // The spacing between each WeaponShowcase (should be 30)
+    public float spacing = 30f; // The spacing between each WeaponShowcase (should be 30)
     public Transform openingContents; // Every WeaponShowcase will be under this transform
+    public Transform winLine; // The WinLine that indicates the winning position
+    public float initialSpeed = 500f; // Initial speed of the scrolling
 
     public List<ShowcaseWeapon> possibleSkins; // List of every skin from the case
 
     private Dictionary<Color32, float> rarityDropChances;
+    private int winningIndex; // The index of the winning WeaponShowcase
 
     void Start()
     {
@@ -26,25 +29,21 @@ public class CaseOpeningManager : MonoBehaviour
         };
 
         SpawnWeaponShowcases();
+
+        // Start the case opening process
+        StartCoroutine(CaseOpeningRoutine());
     }
 
     void SpawnWeaponShowcases()
     {
-        // WeaponShowcase starting position (has to be enough to the left of the scene)
         float startX = -800f;
 
         for (int i = 0; i < amountOfSkins; i++)
         {
-            // Calculate the position for each WeaponShowcase
             Vector3 position = new Vector3(startX + (i * spacing), 2.1f, 0);
-
-            // Instantiate the prefab
             GameObject showcase = Instantiate(weaponShowcasePrefab, position, Quaternion.identity);
-
-            // Set the parent
             showcase.transform.SetParent(openingContents, false);
 
-            // Randomly assign a skin to the WeaponShowcase
             ShowcaseWeapon selectedSkin = GetRandomSkinByRarity();
             WeaponDisplay display = showcase.GetComponent<WeaponDisplay>();
             if (display != null)
@@ -52,27 +51,30 @@ public class CaseOpeningManager : MonoBehaviour
                 display.skin = selectedSkin;
             }
 
-            // Naming is key to clean code :)
+            // Name each showcase
             showcase.name = "WeaponShowcase_" + (i + 1);
+
+            // Determine the winning showcase
+            if (i == amountOfSkins - 5) // The index of the winning showcase
+            {
+                winningIndex = i;
+                showcase.name = "Winning Showcase"; // Name the winning showcase
+            }
         }
     }
 
-
-    ShowcaseWeapon GetRandomSkinByRarity() // Basically a legal lottery :)
+    ShowcaseWeapon GetRandomSkinByRarity()
     {
-        // Total weight is every skin in the case combined (will always be 100%)
         float totalWeight = 0f;
 
-        // Calculate the total weight based on the rarity
         foreach (ShowcaseWeapon skin in possibleSkins)
         {
             totalWeight += rarityDropChances[skin.skinRarity];
         }
 
         float randomValue = Random.Range(0, totalWeight);
-
-        // Goes through each skin and makes sure it doesn't go past a 100% weight)
         float cumulativeWeight = 0f;
+
         foreach (ShowcaseWeapon skin in possibleSkins)
         {
             cumulativeWeight += rarityDropChances[skin.skinRarity];
@@ -82,7 +84,84 @@ public class CaseOpeningManager : MonoBehaviour
             }
         }
 
-        // Will get run if there are any errors
         return possibleSkins[0];
+    }
+
+    IEnumerator CaseOpeningRoutine()
+    {
+        float constantSpeedDuration = 2f; // Duration of constant speed
+        float slowdownDuration = 4f; // Duration of slowdown
+        float totalDuration = constantSpeedDuration + slowdownDuration; // Total time for the routine
+        float timer = 0f; // Timer to track elapsed time
+
+        float speed = initialSpeed;
+
+        // Calculate the width of a WeaponShowcase using RectTransform (if it's a UI element)
+        RectTransform exampleRect = weaponShowcasePrefab.GetComponentInChildren<RectTransform>();
+        if (exampleRect == null)
+        {
+            Debug.LogError("WeaponShowcasePrefab does not have a RectTransform in its children.");
+            yield break;
+        }
+        float showcaseWidth = exampleRect.rect.width;
+
+        // Calculate the center position of the WinLine
+        float winLineCenterX = winLine.position.x;
+
+        while (true)
+        {
+            timer += Time.deltaTime; // Update timer
+
+            if (timer <= constantSpeedDuration)
+            {
+                // Constant speed phase
+                speed = initialSpeed;
+            }
+            else if (timer <= totalDuration)
+            {
+                // Gradual slowdown phase
+                float t = (timer - constantSpeedDuration) / slowdownDuration; // Normalize time
+                speed = Mathf.Lerp(initialSpeed, 0f, t); // Lerp speed to zero
+            }
+            else
+            {
+                // Ensure speed is exactly zero after total duration
+                speed = 0f;
+            }
+
+            foreach (Transform showcase in openingContents)
+            {
+                showcase.transform.Translate(Vector3.left * speed * Time.deltaTime);
+            }
+
+            Transform winningShowcase = openingContents.GetChild(winningIndex);
+            Transform showcasePosition = winningShowcase.Find("ShowcasePosition"); // Find the "ShowcasePosition" child
+            RectTransform winningShowcaseRect = showcasePosition.GetComponent<RectTransform>();
+            if (winningShowcaseRect == null)
+            {
+                Debug.LogError("Winning Showcase's 'ShowcasePosition' does not have a RectTransform.");
+                yield break;
+            }
+
+            float winningShowcaseCenterX = winningShowcaseRect.position.x + (showcaseWidth / 2f);
+            float distanceToWinLine = Mathf.Abs(winLineCenterX - winningShowcaseCenterX);
+
+            // Check if the winning showcase is very close to the win line and speed is very low
+            if (distanceToWinLine < 0.1f && speed <= 0.1f)
+            {
+                Debug.Log("Winning showcase reached the WinLine!");
+                winningShowcaseRect.position = new Vector3(winLineCenterX - (showcaseWidth / 2f), winningShowcaseRect.position.y, winningShowcaseRect.position.z);
+                yield break; // Stop the routine
+            }
+
+            // Debug log for tracking time and position
+            Debug.Log($"Time Elapsed: {timer:F2}s");
+            Debug.Log($"Winning Showcase Position: {winningShowcaseRect.position.x}");
+            Debug.Log($"WinLine Position: {winLineCenterX}");
+            Debug.Log($"Distance to WinLine: {distanceToWinLine}");
+            Debug.Log($"Current Speed: {speed}");
+
+            yield return null; // Wait until the next frame
+        }
     }
 }

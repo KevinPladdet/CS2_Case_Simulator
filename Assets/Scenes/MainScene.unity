@@ -5133,9 +5133,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponShowcasePrefab: {fileID: 1460020790927418956, guid: 55d23e623c5a2b2469470b43e1fe0f78, type: 3}
-  amountOfSkins: 30
+  amountOfSkins: 50
   spacing: 373
   openingContents: {fileID: 1301373271}
+  winLine: {fileID: 2054686262}
+  initialSpeed: 3000
   possibleSkins:
   - {fileID: 11400000, guid: 1c620482327de2c46a174ce10ab89a5c, type: 2}
   - {fileID: 11400000, guid: bbd0f6004bfe7a941b72f1587c955304, type: 2}
