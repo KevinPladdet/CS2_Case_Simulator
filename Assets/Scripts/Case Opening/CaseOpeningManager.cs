@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CaseOpeningManager : MonoBehaviour
 {
@@ -34,6 +35,14 @@ public class CaseOpeningManager : MonoBehaviour
 
         // Start the case opening process
         StartCoroutine(CaseOpeningRoutine());
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("MainScene");
+        }
     }
 
     void SpawnWeaponShowcases()
@@ -93,21 +102,20 @@ public class CaseOpeningManager : MonoBehaviour
     {
         float speed = initialSpeed;
 
-        // Calculate the width of a WeaponShowcase using RectTransform (if it's a UI element)
-        RectTransform exampleRect = weaponShowcasePrefab.GetComponentInChildren<RectTransform>();
-        if (exampleRect == null)
+        // Ensure the RectTransform of the ShowcasePosition is correctly found
+        RectTransform showcasePositionRect = weaponShowcasePrefab.transform.Find("ShowcasePosition")?.GetComponent<RectTransform>();
+        if (showcasePositionRect == null)
         {
-            Debug.LogError("WeaponShowcasePrefab does not have a RectTransform in its children.");
+            Debug.LogError("WeaponShowcasePrefab's 'ShowcasePosition' child does not have a RectTransform.");
             yield break;
         }
-        float showcaseWidth = exampleRect.rect.width;
 
-        // Calculate the center position of the WinLine
+        // Calculate the center position of the WinLine in world space
         float winLineCenterX = winLine.position.x;
 
         while (true)
         {
-            // Move all showcases with initial speed
+            // Move all showcases with current speed
             foreach (Transform showcase in openingContents)
             {
                 showcase.transform.Translate(Vector3.left * speed * Time.deltaTime);
@@ -115,7 +123,7 @@ public class CaseOpeningManager : MonoBehaviour
 
             // Check the distance from the winning showcase to the win line
             Transform winningShowcase = openingContents.GetChild(winningIndex);
-            Transform showcasePosition = winningShowcase.Find("ShowcasePosition"); // Reference the "ShowcasePosition" child
+            Transform showcasePosition = winningShowcase.Find("ShowcasePosition");
             if (showcasePosition == null)
             {
                 Debug.LogError("Winning Showcase does not have a child named 'ShowcasePosition'.");
@@ -129,7 +137,20 @@ public class CaseOpeningManager : MonoBehaviour
                 yield break;
             }
 
-            float winningShowcaseCenterX = winningShowcaseRect.position.x + (showcaseWidth / 2f);
+            // Calculate the center of the winning showcase in world coordinates
+            Vector3 localCenter = new Vector3(
+                winningShowcaseRect.rect.width * (0.5f - winningShowcaseRect.pivot.x),
+                0,
+                0
+            );
+
+            // Convert local center to world position
+            Vector3 worldCenter = winningShowcaseRect.TransformPoint(localCenter);
+
+            // Get the X position of the world center
+            float winningShowcaseCenterX = worldCenter.x;
+
+            // Calculate the distance to the WinLine
             float distanceToWinLine = Mathf.Abs(winLineCenterX - winningShowcaseCenterX);
 
             // Log the distance to the console
@@ -143,12 +164,23 @@ public class CaseOpeningManager : MonoBehaviour
                 // Lerp speed from initialSpeed to minimumSpeed based on the normalized distance
                 speed = Mathf.Lerp(minimumSpeed, initialSpeed, t);
             }
+            else
+            {
+                // Ensure speed remains constant if distance is greater than slowdownDistance
+                speed = initialSpeed;
+            }
 
             // Stop when the winning showcase is close enough
-            if (distanceToWinLine < 0.1f && speed < minimumSpeed + 0.1f)
+            if (distanceToWinLine < 0.4f && speed <= minimumSpeed + 0.4f)
             {
                 Debug.Log("Winning showcase reached the WinLine!");
-                winningShowcaseRect.position = new Vector3(winLineCenterX - (showcaseWidth / 2f), winningShowcaseRect.position.y, winningShowcaseRect.position.z);
+
+                // Align the center of the winning showcase with the WinLine
+                Vector3 newPosition = winningShowcaseRect.position;
+                newPosition.x = winLineCenterX;
+                winningShowcaseRect.position = newPosition;
+
+                // Stop the coroutine
                 yield break;
             }
 
