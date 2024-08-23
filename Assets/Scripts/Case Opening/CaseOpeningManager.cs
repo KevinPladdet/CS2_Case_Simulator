@@ -43,6 +43,9 @@ public class CaseOpeningManager : MonoBehaviour
     private Dictionary<Color32, float> rarityDropChances;
     private Coroutine caseOpeningRoutine;
 
+    [Header("Case Menu Weapon Showcases")]
+    public List<GameObject> caseMenuWeaponShowcases = new List<GameObject>(); // List of 20 weapon showcases in the case menu
+
     void Start()
     {
         if (currentCase != null)
@@ -60,6 +63,9 @@ public class CaseOpeningManager : MonoBehaviour
                 { new Color32(206, 73, 74, 255), 0.64f },    // Red
                 { new Color32(239, 215, 55, 255), 0.26f }    // Gold
             };
+
+            // Populate the case menu with skins
+            UpdateCaseMenuShowcases();
 
             blurring.SetActive(true);
         }
@@ -183,6 +189,38 @@ public class CaseOpeningManager : MonoBehaviour
 
         // Fallback if something goes wrong
         return currentCase.caseSkins[0];
+    }
+
+    void UpdateCaseMenuShowcases()
+    {
+        if (caseMenuWeaponShowcases.Count == 0)
+        {
+            Debug.LogError("No weapon showcases assigned to the case menu.");
+            return;
+        }
+
+        // Disable all showcases initially
+        foreach (GameObject showcase in caseMenuWeaponShowcases)
+        {
+            showcase.SetActive(false);
+        }
+
+        // Display the skins in the assigned showcases
+        int skinCount = currentCase.caseSkins.Count;
+        for (int i = 0; i < skinCount; i++)
+        {
+            if (i >= caseMenuWeaponShowcases.Count)
+                break;
+
+            GameObject showcase = caseMenuWeaponShowcases[i];
+            showcase.SetActive(true);
+
+            WeaponDisplay display = showcase.GetComponent<WeaponDisplay>();
+            if (display != null)
+            {
+                display.skin = currentCase.caseSkins[i];
+            }
+        }
     }
 
     IEnumerator CaseOpeningRoutine()

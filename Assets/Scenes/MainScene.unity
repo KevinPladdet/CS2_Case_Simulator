@@ -9641,6 +9641,27 @@ MonoBehaviour:
   slowdownDistance: 6000
   minimumSpeed: 200
   currentCase: {fileID: 11400000, guid: f825dcf57a0b62c4cb607d07d7d6fb9e, type: 2}
+  caseMenuWeaponShowcases:
+  - {fileID: 876092752}
+  - {fileID: 440443666}
+  - {fileID: 1227091534}
+  - {fileID: 672776396}
+  - {fileID: 2076572888}
+  - {fileID: 2017462802}
+  - {fileID: 1850247282}
+  - {fileID: 843651675}
+  - {fileID: 602227128}
+  - {fileID: 515029010}
+  - {fileID: 2043576786}
+  - {fileID: 1162840411}
+  - {fileID: 497226890}
+  - {fileID: 732951503}
+  - {fileID: 37853574}
+  - {fileID: 425124889}
+  - {fileID: 1270929346}
+  - {fileID: 1307873753}
+  - {fileID: 1931255278}
+  - {fileID: 342634295}
 --- !u!1 &1227091534
 GameObject:
   m_ObjectHideFlags: 0
