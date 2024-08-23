@@ -16,9 +16,13 @@ public class CaseOpeningManager : MonoBehaviour
     [Header("Menu Stuff")]
     public GameObject CaseMenu; // The menu where you see the case and all the skins
     public GameObject caseMenuBackground; // Enables when you go back to the menu
-    public GameObject OpeningMenu; // Contains "coverBackground", "WinLine" and "SkinFloatValue"
+    public GameObject openingMenu; // Contains "coverBackground", "WinLine" and "SkinFloatValue"
+    public GameObject blurring; // This is an image that blurs the background behind case contents
 
-    [Header("Case Settings")]
+    [Header("Case Info")]
+    public TextMeshProUGUI UnlockCaseText;
+
+    [Header("Case Roll Settings")]
     [SerializeField] private int amountOfSkins; // The number of Weapon Showcases it will spawn
     private float spacing = 373f; // The spacing between each WeaponShowcase (should be 373)
     [SerializeField] private float initialSpeed = 5000f; // Initial speed of the scrolling
@@ -32,7 +36,8 @@ public class CaseOpeningManager : MonoBehaviour
 
     [Header("Cases")]
     // Different cases (for now there is only the wildfire case)
-    public List<ShowcaseWeapon> wildfireCaseSkins; // List of every skin from the case
+    public List<ShowcaseWeapon> wildfireCaseSkins; // Wildfire Case
+    public List<ShowcaseWeapon> placeholderCaseSkins; // Placeholder Case
 
     private Dictionary<Color32, float> rarityDropChances;
     private int winningIndex; // The index of the winning Weapon Showcase
@@ -49,6 +54,10 @@ public class CaseOpeningManager : MonoBehaviour
             { new Color32(239, 215, 55, 255), 0.26f }    // Gold
         };
 
+        blurring.SetActive(true);
+
+        UnlockCaseText.text = "Unlock <b>Operation Wildfire Case</b>";
+
         SpawnWeaponShowcases();   
     }
 
@@ -56,8 +65,9 @@ public class CaseOpeningManager : MonoBehaviour
     {
         CaseMenu.SetActive(false);
         caseMenuBackground.SetActive(false);
+        blurring.SetActive(false);
 
-        OpeningMenu.SetActive(true);
+        openingMenu.SetActive(true);
 
         winLineOffDistance = Random.Range(-0.75f, 0.15f);
 
@@ -69,10 +79,11 @@ public class CaseOpeningManager : MonoBehaviour
     public void ExitCase()
     {
         floatValueObject.SetActive(false);
-        OpeningMenu.SetActive(false);
+        openingMenu.SetActive(false);
 
         CaseMenu.SetActive(true);
         caseMenuBackground.SetActive(true);
+        blurring.SetActive(true);
     }
 
     void Update()

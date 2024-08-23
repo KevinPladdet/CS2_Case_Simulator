@@ -12,7 +12,5 @@ public class ShowcaseWeapon : ScriptableObject
 
     public Sprite skinImage;
     public Sprite weaponBackground;
-
-    public float dropChance; // This represents the rarity percentage
 }
 
