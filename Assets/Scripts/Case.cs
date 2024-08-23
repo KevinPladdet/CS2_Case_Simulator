@@ -8,4 +8,3 @@ public class Case : ScriptableObject
     public Sprite caseImage;
     public List<ShowcaseWeapon> caseSkins;
 }
-
