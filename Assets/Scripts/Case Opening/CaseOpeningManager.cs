@@ -41,6 +41,7 @@ public class CaseOpeningManager : MonoBehaviour
     public Case currentCase; // Reference to the selected case
 
     private Dictionary<Color32, float> rarityDropChances;
+    private Coroutine caseOpeningRoutine;
 
     void Start()
     {
@@ -74,16 +75,25 @@ public class CaseOpeningManager : MonoBehaviour
         caseMenuBackground.SetActive(false);
         blurring.SetActive(false);
 
+        floatValueObject.SetActive(false);
         closeOpeningButton.SetActive(false);
+
         openingMenu.SetActive(true);
 
-        winLineOffDistance = Random.Range(-0.75f, 0.15f); // winLine can land anywhere on the winning weapon showcase
-        floatValue = Random.Range(0f, 1f);
-
-        // Spawn weapon showcases with randomized skins
+        // Remove and re-add weapon showcases
+        RemoveWeaponShowcases();
         SpawnWeaponShowcases();
 
-        StartCoroutine(CaseOpeningRoutine());
+        // Reset the float value and win line offset
+        winLineOffDistance = Random.Range(-0.75f, 0.15f);
+        floatValue = Random.Range(0f, 1f);
+
+        // Stop any existing routine and start a new one
+        if (caseOpeningRoutine != null)
+        {
+            StopCoroutine(caseOpeningRoutine);
+        }
+        caseOpeningRoutine = StartCoroutine(CaseOpeningRoutine());
     }
 
     public void ExitCase()
@@ -105,15 +115,18 @@ public class CaseOpeningManager : MonoBehaviour
         }
     }
 
-    void SpawnWeaponShowcases()
+    void RemoveWeaponShowcases()
     {
-        // Clear existing showcases
+        // Destroy all existing weapon showcases
         foreach (Transform child in openingContents)
         {
             Destroy(child.gameObject);
         }
+    }
 
-        // Instantiate and set up 50 weapon showcases with randomized skins
+    void SpawnWeaponShowcases()
+    {
+        // Instantiate and set up weapon showcases
         for (int i = 0; i < amountOfSkins; i++)
         {
             Vector3 position = new Vector3(-800f + (i * spacing), 15.8f, 0);
@@ -175,27 +188,24 @@ public class CaseOpeningManager : MonoBehaviour
     IEnumerator CaseOpeningRoutine()
     {
         float speed = initialSpeed;
-
-        // Ensure the RectTransform of the ShowcasePosition is correctly found
         RectTransform showcasePositionRect = weaponShowcasePrefab.transform.Find("ShowcasePosition")?.GetComponent<RectTransform>();
+
         if (showcasePositionRect == null)
         {
             Debug.LogError("WeaponShowcasePrefab's 'ShowcasePosition' child does not have a RectTransform.");
             yield break;
         }
 
-        // Calculate the center position of the WinLine in world space
-        float winLineCenterX = winLine.position.x;
-
         while (true)
         {
+            float winLineCenterX = winLine.position.x; // Ensure this is updated each frame
+
             // Move all showcases with current speed
             foreach (Transform showcase in openingContents)
             {
                 showcase.transform.Translate(Vector3.left * speed * Time.deltaTime);
             }
 
-            // Check the distance from the winning showcase to the win line
             Transform winningShowcase = openingContents.GetChild(winningIndex);
             Transform showcasePosition = winningShowcase.Find("ShowcasePosition");
             if (showcasePosition == null)
@@ -211,15 +221,12 @@ public class CaseOpeningManager : MonoBehaviour
                 yield break;
             }
 
-            // Calculate the center of the winning showcase in world coordinates
             Vector3 localCenter = new Vector3(winningShowcaseRect.rect.width * (winLineOffDistance + winningShowcaseRect.pivot.x), 0, 0);
             Vector3 worldCenter = winningShowcaseRect.TransformPoint(localCenter);
             float winningShowcaseCenterX = worldCenter.x;
 
-            // Calculate the distance to the WinLine
             float distanceToWinLine = Mathf.Abs(winLineCenterX - winningShowcaseCenterX);
 
-            // Adjust the speed based on the distance
             if (distanceToWinLine <= slowdownDistance)
             {
                 float t = Mathf.Clamp01(distanceToWinLine / slowdownDistance);
@@ -230,20 +237,15 @@ public class CaseOpeningManager : MonoBehaviour
                 speed = initialSpeed;
             }
 
-            // Determine the target range for the WinLine to stop within
             float minTargetX = winningShowcaseCenterX - showcasePositionRect.rect.width / 2;
             float maxTargetX = winningShowcaseCenterX + showcasePositionRect.rect.width / 2;
 
-            // Check if the WinLine is within the target range of the winning showcase
             if (winLineCenterX >= minTargetX && winLineCenterX <= maxTargetX)
             {
-                // Everything below this happens when the skin is pulled
                 floatValueObject.SetActive(true);
-                floatValueObject.GetComponent<TextMeshProUGUI>().text = "" + floatValue.ToString("F7");
+                floatValueObject.GetComponent<TextMeshProUGUI>().text = floatValue.ToString("F7");
 
-                // Enable weapon type text + skin name text
                 TextMeshProUGUI[] textComponents = winningShowcase.GetComponentsInChildren<TextMeshProUGUI>();
-
                 foreach (TextMeshProUGUI textComponent in textComponents)
                 {
                     if (textComponent.gameObject.name == "WeaponTypeText" ||
@@ -254,7 +256,6 @@ public class CaseOpeningManager : MonoBehaviour
                 }
 
                 closeOpeningButton.SetActive(true);
-
                 break;
             }
 
