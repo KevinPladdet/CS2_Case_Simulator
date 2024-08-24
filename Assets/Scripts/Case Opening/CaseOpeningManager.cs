@@ -45,6 +45,17 @@ public class CaseOpeningManager : MonoBehaviour
     [Header("Case Menu Weapon Showcases")]
     public List<GameObject> caseMenuWeaponShowcases = new List<GameObject>(); // List of showcases for displaying skins in the case menu
 
+    [Header("Sound Effects")]
+    public AudioSource audioSource;
+    public AudioClip itemdrop_blue;
+    public AudioClip itemdrop_purple;
+    public AudioClip itemdrop_pink;
+    public AudioClip itemdrop_red;
+    public AudioClip itemdrop_gold;
+    public AudioClip case_scroll;
+
+    private Dictionary<Transform, bool> showcasePassedWinLine = new Dictionary<Transform, bool>(); // To track whether each showcase has passed the win line
+
     void Start()
     {
         if (currentCase != null)
@@ -96,6 +107,13 @@ public class CaseOpeningManager : MonoBehaviour
             Vector3 position = showcase.localPosition;
             position.x = -800f + (i * spacing);
             showcase.localPosition = position;
+        }
+
+        // Initialize showcasePassedWinLine dictionary for tracking
+        showcasePassedWinLine.Clear();
+        foreach (Transform showcase in openingContents)
+        {
+            showcasePassedWinLine.Add(showcase, false);
         }
 
         // Stop any ongoing case opening routine
@@ -248,6 +266,9 @@ public class CaseOpeningManager : MonoBehaviour
             foreach (Transform showcase in openingContents)
             {
                 showcase.transform.Translate(Vector3.left * speed * Time.deltaTime);
+
+                // Play the scroll sound effect for each showcase as it passes the win line
+                PlayScrollSound(showcase);
             }
 
             // Ensure winningIndex is within bounds
@@ -313,11 +334,56 @@ public class CaseOpeningManager : MonoBehaviour
                     }
                 }
 
+                // Play the appropriate sound effect for the winning showcase
+                PlayItemDropSound(winningShowcase);
+
                 closeOpeningButton.SetActive(true);
                 break;
             }
 
             yield return null;
+        }
+    }
+
+    void PlayScrollSound(Transform showcase)
+    {
+        // Calculate the current distance of the showcase to the win line
+        float showcaseCenterX = showcase.position.x;
+
+        // Check if the showcase has passed the win line from right to left
+        if (showcaseCenterX < winLine.position.x && !showcasePassedWinLine[showcase])
+        {
+            audioSource.PlayOneShot(case_scroll);
+            showcasePassedWinLine[showcase] = true; // Mark this showcase as having passed the win line
+        }
+    }
+
+    void PlayItemDropSound(Transform winningShowcase)
+    {
+        WeaponDisplay display = winningShowcase.GetComponent<WeaponDisplay>();
+        if (display != null)
+        {
+            Color32 rarityColor = display.skin.skinRarity;
+            if (rarityColor.Equals(new Color32(81, 103, 241, 255)))
+            {
+                audioSource.PlayOneShot(itemdrop_blue);
+            }
+            else if (rarityColor.Equals(new Color32(132, 73, 247, 255)))
+            {
+                audioSource.PlayOneShot(itemdrop_purple);
+            }
+            else if (rarityColor.Equals(new Color32(190, 48, 205, 255)))
+            {
+                audioSource.PlayOneShot(itemdrop_pink);
+            }
+            else if (rarityColor.Equals(new Color32(206, 73, 74, 255)))
+            {
+                audioSource.PlayOneShot(itemdrop_red);
+            }
+            else if (rarityColor.Equals(new Color32(239, 215, 55, 255)))
+            {
+                audioSource.PlayOneShot(itemdrop_gold);
+            }
         }
     }
 }
