@@ -86,7 +86,7 @@ public class CaseOpeningManager : MonoBehaviour
     {
         CaseMenu.SetActive(false);
         caseMenuBackground.SetActive(false);
-        blurring.SetActive(false);
+        //blurring.SetActive(false);
 
         floatValueObject.SetActive(false);
         closeOpeningButton.SetActive(false);
@@ -132,7 +132,7 @@ public class CaseOpeningManager : MonoBehaviour
 
         CaseMenu.SetActive(true);
         caseMenuBackground.SetActive(true);
-        blurring.SetActive(true);
+        //blurring.SetActive(true);
     }
 
     void Update()
