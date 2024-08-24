@@ -315,7 +315,7 @@ public class CaseOpeningManager : MonoBehaviour
 
             if (winLineCenterX >= minTargetX && winLineCenterX <= maxTargetX)
             {
-                Debug.Log("PulledSkin");
+                // Pulled skin / case animation ended
                 floatValueObject.SetActive(true);
                 floatValueObject.GetComponent<TextMeshProUGUI>().text = floatValue.ToString("F7");
 
