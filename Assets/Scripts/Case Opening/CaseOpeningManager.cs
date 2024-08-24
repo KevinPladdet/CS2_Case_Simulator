@@ -89,6 +89,15 @@ public class CaseOpeningManager : MonoBehaviour
         winLineOffDistance = Random.Range(-0.75f, 0.15f);
         floatValue = Random.Range(0f, 1f);
 
+        // Reset the initial positions of all showcases to ensure proper animation
+        for (int i = 0; i < openingContents.childCount; i++)
+        {
+            Transform showcase = openingContents.GetChild(i);
+            Vector3 position = showcase.localPosition;
+            position.x = -800f + (i * spacing);
+            showcase.localPosition = position;
+        }
+
         // Stop any ongoing case opening routine
         if (caseOpeningRoutine != null)
         {
@@ -123,6 +132,7 @@ public class CaseOpeningManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        openingContents.DetachChildren(); // Ensure all children are fully detached after destroying
     }
 
     // Spawn weapon showcases in the case opening scene
@@ -240,6 +250,13 @@ public class CaseOpeningManager : MonoBehaviour
                 showcase.transform.Translate(Vector3.left * speed * Time.deltaTime);
             }
 
+            // Ensure winningIndex is within bounds
+            if (winningIndex < 0 || winningIndex >= openingContents.childCount)
+            {
+                Debug.LogError("Winning showcase index is out of bounds.");
+                yield break;
+            }
+
             // Gets the position of the winning showcase
             Transform winningShowcase = openingContents.GetChild(winningIndex);
             Transform showcasePosition = winningShowcase.Find("ShowcasePosition");
@@ -281,6 +298,7 @@ public class CaseOpeningManager : MonoBehaviour
 
             if (winLineCenterX >= minTargetX && winLineCenterX <= maxTargetX)
             {
+                Debug.Log("PulledSkin");
                 floatValueObject.SetActive(true);
                 floatValueObject.GetComponent<TextMeshProUGUI>().text = floatValue.ToString("F7");
 
