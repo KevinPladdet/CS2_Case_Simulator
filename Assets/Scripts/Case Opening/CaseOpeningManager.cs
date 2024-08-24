@@ -350,8 +350,19 @@ public class CaseOpeningManager : MonoBehaviour
         // Calculate the current distance of the showcase to the win line
         float showcaseCenterX = showcase.position.x;
 
+        RectTransform showcasePositionRect = showcase.Find("ShowcasePosition")?.GetComponent<RectTransform>();
+        if (showcasePositionRect == null)
+        {
+            Debug.LogError("Showcase does not have a 'ShowcasePosition' RectTransform.");
+            return;
+        }
+
+        Vector3 localRightEdge = new Vector3(showcasePositionRect.rect.width * (3.11f + showcasePositionRect.pivot.x), 0, 0);
+        Vector3 worldRightEdge = showcasePositionRect.TransformPoint(localRightEdge);
+        float showcaseRightX = worldRightEdge.x;
+
         // Check if the showcase has passed the win line from right to left
-        if (showcaseCenterX < winLine.position.x && !showcasePassedWinLine[showcase])
+        if (showcaseRightX < winLine.position.x && !showcasePassedWinLine[showcase])
         {
             audioSource.PlayOneShot(case_scroll);
             showcasePassedWinLine[showcase] = true; // Mark this showcase as having passed the win line

@@ -9839,6 +9839,8 @@ MonoBehaviour:
   itemdrop_red: {fileID: 8300000, guid: fd534f81ff358fd4ab293f5bc9447a7f, type: 3}
   itemdrop_gold: {fileID: 8300000, guid: aa122b0ecd8f2f74cb594e181f5570cb, type: 3}
   case_scroll: {fileID: 8300000, guid: 2c1f4099f31ada04aa3604b145178a05, type: 3}
+  countingToFive: 0
+  soundDistance: 3.11
 --- !u!1 &1227091534
 GameObject:
   m_ObjectHideFlags: 0
