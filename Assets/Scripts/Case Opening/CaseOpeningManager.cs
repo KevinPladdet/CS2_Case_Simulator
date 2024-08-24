@@ -18,7 +18,6 @@ public class CaseOpeningManager : MonoBehaviour
     public GameObject CaseMenu;
     public GameObject caseMenuBackground;
     public GameObject openingMenu;
-    public GameObject blurring; // Blurring menu which has all the blurring images
 
     [Header("Case Info")]
     public TextMeshProUGUI UnlockCaseText; // Case name text
@@ -74,7 +73,6 @@ public class CaseOpeningManager : MonoBehaviour
             };
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
-            blurring.SetActive(true);
         }
         else
         {
@@ -86,7 +84,6 @@ public class CaseOpeningManager : MonoBehaviour
     {
         CaseMenu.SetActive(false);
         caseMenuBackground.SetActive(false);
-        //blurring.SetActive(false);
 
         floatValueObject.SetActive(false);
         closeOpeningButton.SetActive(false);
@@ -132,7 +129,6 @@ public class CaseOpeningManager : MonoBehaviour
 
         CaseMenu.SetActive(true);
         caseMenuBackground.SetActive(true);
-        //blurring.SetActive(true);
     }
 
     void Update()
@@ -395,6 +391,24 @@ public class CaseOpeningManager : MonoBehaviour
             {
                 audioSource.PlayOneShot(itemdrop_gold);
             }
+        }
+    }
+
+    // Selecting cases from the inventory menu with On Click() event from a button
+    public void SetCurrentCase(Case selectedCase)
+    {
+        currentCase = selectedCase;
+
+        if (currentCase != null)
+        {
+            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + "</b>"; // Set the unlock case text
+            caseImage.sprite = currentCase.caseImage; // Set the case image
+
+            UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
+        }
+        else
+        {
+            Debug.LogError("No case selected.");
         }
     }
 }
