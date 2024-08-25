@@ -17,5 +17,5 @@ MonoBehaviour:
   skinRarity:
     serializedVersion: 2
     rgba: 4294010705
-  skinImage: {fileID: 21300000, guid: ce71e7c134988f54c88a082611710d9c, type: 3}
+  skinImage: {fileID: 21300000, guid: f48f75a262d1f8742846e53cd39b03b2, type: 3}
   weaponBackground: {fileID: 21300000, guid: 7f99ab977540726438be3f711cf54ffe, type: 3}
