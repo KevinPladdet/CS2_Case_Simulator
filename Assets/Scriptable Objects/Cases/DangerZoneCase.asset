@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd264c4bd088d6408b4900ce8ef8f0b, type: 3}
+  m_Name: DangerZoneCase
+  m_EditorClassIdentifier: 
+  caseName: Danger Zone
+  caseImage: {fileID: 21300000, guid: 7fe8fa2e7ad850c499b14c0db494d9c5, type: 3}
+  caseSkins:
+  - {fileID: 11400000, guid: 8a32a6e47063692469de06024fbd9cbc, type: 2}
+  - {fileID: 11400000, guid: 083e134ceeb414c43a02a2bbae2fe4d7, type: 2}
+  - {fileID: 11400000, guid: 2573db545a377de4eb6d684144b5b560, type: 2}
+  - {fileID: 11400000, guid: 2348b178367f41a41a9fd9e1e45ba489, type: 2}
+  - {fileID: 11400000, guid: 3988af10c511e2645ad4b64b64436099, type: 2}
+  - {fileID: 11400000, guid: 04cd87d59c6a2714f929193c2959dd4e, type: 2}
+  - {fileID: 11400000, guid: a618bc7d6237b404ab5af982126aefe2, type: 2}
+  - {fileID: 11400000, guid: 6f4c63b6a2cef5643bb3523826ff5a38, type: 2}
+  - {fileID: 11400000, guid: e1104a2e460202e4f837dddc9c1048a8, type: 2}
+  - {fileID: 11400000, guid: d1db58deac7ebda4cac2b4ea80f306ff, type: 2}
+  - {fileID: 11400000, guid: 07158f7af571f524db7195462c82ae46, type: 2}
+  - {fileID: 11400000, guid: 044f1b5b43db21944a7490cc7b30f558, type: 2}
+  - {fileID: 11400000, guid: eba9d018f765abd44adce26f27f0a687, type: 2}
+  - {fileID: 11400000, guid: 4e3fb798213f518469302a72a2408c03, type: 2}
+  - {fileID: 11400000, guid: 10e5cd4f0c3447049b7bfbcdca109732, type: 2}
+  - {fileID: 11400000, guid: eb2893b0927d31f4ba305637e3d03881, type: 2}
+  - {fileID: 11400000, guid: 033c7a32ba3d5c44cbd6d7350c4a0bf1, type: 2}
+  - {fileID: 11400000, guid: 9d5583d2cb64f1544874541c28f25710, type: 2}

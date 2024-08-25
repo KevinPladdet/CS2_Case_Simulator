@@ -13,18 +13,23 @@ MonoBehaviour:
   m_Name: HydraCase
   m_EditorClassIdentifier: 
   caseName: Operation Hydra
-  caseImage: {fileID: 21300000, guid: 0de8d81e6a3e57b4e850e7282de49548, type: 3}
+  caseImage: {fileID: 21300000, guid: 3c049ea52c2cc644ab1acd0b67a61de4, type: 3}
   caseSkins:
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: aa08386f2c543d146ba8b0aefe98afe6, type: 2}
-  - {fileID: 11400000, guid: 9e065a34cc27d5140a1b27fefbe350a0, type: 2}
-  - {fileID: 11400000, guid: f488feec01740494f9e526617380b305, type: 2}
-  - {fileID: 11400000, guid: 1c620482327de2c46a174ce10ab89a5c, type: 2}
-  - {fileID: 11400000, guid: 69c9808242bb5484e8c113be20c79ca8, type: 2}
-  - {fileID: 11400000, guid: 9406999a23fea0444b44632b48b7326d, type: 2}
-  - {fileID: 11400000, guid: 7ce5ef92dc1969c4885e5b53a5bf1ee9, type: 2}
-  - {fileID: 11400000, guid: 7ce5ef92dc1969c4885e5b53a5bf1ee9, type: 2}
-  - {fileID: 11400000, guid: 7ce5ef92dc1969c4885e5b53a5bf1ee9, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
+  - {fileID: 11400000, guid: 7021bb9bde53ff04eb98277bda760ffa, type: 2}
+  - {fileID: 11400000, guid: d67fea298a5b7ba469c22af10794eef4, type: 2}
+  - {fileID: 11400000, guid: 16bd95f725effa341a8d29ca19c83969, type: 2}
+  - {fileID: 11400000, guid: f60d9969cf57df04088479da9c7ab7bf, type: 2}
+  - {fileID: 11400000, guid: 0787bdc45be5535418c46f90b68bed83, type: 2}
+  - {fileID: 11400000, guid: f49e4eac17abf414e9d6a3198a1471f7, type: 2}
+  - {fileID: 11400000, guid: 1cebb4889716c64459ceddbbcd5179ea, type: 2}
+  - {fileID: 11400000, guid: b2d64a32411e0f84b953fe151af83176, type: 2}
+  - {fileID: 11400000, guid: 8861460a57816a9419da1da808b32906, type: 2}
+  - {fileID: 11400000, guid: f48a57eb595b8fe44bd745acc96d036b, type: 2}
+  - {fileID: 11400000, guid: a9669ce5120a3d941bbcf070ef4a4cd1, type: 2}
+  - {fileID: 11400000, guid: 7a73b23302f77a2469035e5daa7f98f1, type: 2}
+  - {fileID: 11400000, guid: 01ada615bc029c14cae9ad02ab0fad15, type: 2}
+  - {fileID: 11400000, guid: 202c1cc3103e4314b89fe4351de3fd8e, type: 2}
+  - {fileID: 11400000, guid: 17471a24e7e3d7c4583f6599cd4edd32, type: 2}
+  - {fileID: 11400000, guid: 74e0d3ffece88d542ad552e185c4dc0e, type: 2}
+  - {fileID: 11400000, guid: 6f5e3983bd628f54f8e9424b7ff9c4ec, type: 2}
+  - {fileID: 11400000, guid: cfcad70fecc196241a0231a4f38b20f4, type: 2}

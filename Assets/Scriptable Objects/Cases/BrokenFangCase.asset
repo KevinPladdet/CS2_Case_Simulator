@@ -13,24 +13,23 @@ MonoBehaviour:
   m_Name: BrokenFangCase
   m_EditorClassIdentifier: 
   caseName: Operation Broken Fang
-  caseImage: {fileID: 21300000, guid: 13db9bad481f66547aa515bccfb8c52d, type: 3}
+  caseImage: {fileID: 21300000, guid: 87a53e2634b18b84fb373f7fd83666bc, type: 3}
   caseSkins:
-  - {fileID: 11400000, guid: 51f82790bc8854b4eb7afa1fd8374f53, type: 2}
-  - {fileID: 11400000, guid: 9e065a34cc27d5140a1b27fefbe350a0, type: 2}
-  - {fileID: 11400000, guid: e209e79e379750349bc79574613f9a0a, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
-  - {fileID: 11400000, guid: 35875a0fede54a446a416de9a1ef8a16, type: 2}
-  - {fileID: 11400000, guid: 8be13f6d097508c4096011a7bcc1e460, type: 2}
+  - {fileID: 11400000, guid: 8973a8721426f0f4aa2940608eef89b8, type: 2}
+  - {fileID: 11400000, guid: b42d271de06d74048bfe1a370cedd05f, type: 2}
+  - {fileID: 11400000, guid: 9c927b2cc0592f34ba40047a62be1458, type: 2}
+  - {fileID: 11400000, guid: 2e157e45381ab9f41b11e803a35ba680, type: 2}
+  - {fileID: 11400000, guid: 715a84453ec75c1448678b85bba290e4, type: 2}
+  - {fileID: 11400000, guid: 3a29d0eacab113e49b72c470345266af, type: 2}
+  - {fileID: 11400000, guid: c411482d1ad29bd488ea71eaecf981da, type: 2}
+  - {fileID: 11400000, guid: 649f5f7bdff380a46b2b3aa456f559c7, type: 2}
+  - {fileID: 11400000, guid: 2bee7daef9eab4b4980e5333244de1ec, type: 2}
+  - {fileID: 11400000, guid: a7f624dffdc43b840a138857979822d7, type: 2}
+  - {fileID: 11400000, guid: bae1d6a349867774080901447340d21f, type: 2}
+  - {fileID: 11400000, guid: 7828f2e17f4d5414c861ac21f94402ae, type: 2}
+  - {fileID: 11400000, guid: 301c181a28ddf0c4fb6ca3fc9e28cc65, type: 2}
+  - {fileID: 11400000, guid: d0678e2545b2d724e9df0d77ecac97aa, type: 2}
+  - {fileID: 11400000, guid: b09e3dc12d8e9ad4d8937d8da3a93ab9, type: 2}
+  - {fileID: 11400000, guid: e3849ca7da16d4c468494ecccd3d2f14, type: 2}
+  - {fileID: 11400000, guid: 6be161eaa84291c4ea0e6d02d1fd8bf8, type: 2}
+  - {fileID: 11400000, guid: 1f168302218e83d47b1b7b7be263b8bc, type: 2}
