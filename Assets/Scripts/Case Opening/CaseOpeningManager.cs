@@ -173,13 +173,15 @@ public class CaseOpeningManager : MonoBehaviour
         CaseMenu.SetActive(true);
         caseMenuBackground.SetActive(true);
 
+        // Update key UI when entering the case menu
+        UpdateKeyUI();
+
         // Automatically show the BuyKeysPanel if there are 0 keys
         if (availableKeys <= 0)
         {
             ShowBuyKeysPanel();
         }
     }
-
 
     void Update()
     {
@@ -500,8 +502,12 @@ public class CaseOpeningManager : MonoBehaviour
 
         if (currentCase != null)
         {
-            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + "</b>"; // Set the unlock case text
+            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + "Case</b>"; // Set the unlock case text
             caseImage.sprite = currentCase.caseImage; // Set the case image
+            
+            keyImage.sprite = currentCase.keyImage; // Sets keyImage
+
+            keyNameText.text = currentCase.caseName; // Sets keyNameText
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
         }
