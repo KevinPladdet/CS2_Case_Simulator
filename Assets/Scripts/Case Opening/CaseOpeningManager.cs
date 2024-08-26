@@ -172,7 +172,14 @@ public class CaseOpeningManager : MonoBehaviour
 
         CaseMenu.SetActive(true);
         caseMenuBackground.SetActive(true);
+
+        // Automatically show the BuyKeysPanel if there are 0 keys
+        if (availableKeys <= 0)
+        {
+            ShowBuyKeysPanel();
+        }
     }
+
 
     void Update()
     {
