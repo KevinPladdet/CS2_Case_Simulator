@@ -49,6 +49,7 @@ public class CaseOpeningManager : MonoBehaviour
     public TextMeshProUGUI keyCountText; // UI text for displaying the number of keys
     public Image keyImage; // UI image for the keys
     public TextMeshProUGUI keyNameText; // UI text for the key name
+    public TextMeshProUGUI keyNameTextTwo; // UI text for the key name
     public GameObject buyKeysPanel; // UI panel for buying keys
     public TMP_Dropdown buyKeysDropdown; // Dropdown menu for selecting the number of keys to buy
     public Button buyKeysButton; // Button to confirm key purchase
@@ -301,14 +302,6 @@ public class CaseOpeningManager : MonoBehaviour
         {
             keyCountText.text = availableKeys.ToString();
         }
-        if (keyImage != null && availableKeys <= 0)
-        {
-            keyImage.color = Color.gray;
-        }
-        else if (keyImage != null)
-        {
-            keyImage.color = Color.white; // Set the image color back to white if keys are available
-        }
 
         if (UnlockButton != null)
         {
@@ -507,7 +500,8 @@ public class CaseOpeningManager : MonoBehaviour
             
             keyImage.sprite = currentCase.keyImage; // Sets keyImage
 
-            keyNameText.text = currentCase.caseName; // Sets keyNameText
+            keyNameText.text = currentCase.caseName + " Key"; // Sets keyNameText
+            keyNameTextTwo.text = currentCase.caseName + " Key";
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
         }
