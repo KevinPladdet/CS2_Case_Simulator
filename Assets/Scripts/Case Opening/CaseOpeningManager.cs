@@ -44,6 +44,16 @@ public class CaseOpeningManager : MonoBehaviour
     [Header("Case Menu Weapon Showcases")]
     public List<GameObject> caseMenuWeaponShowcases = new List<GameObject>(); // List of showcases for displaying skins in the case menu
 
+    [Header("Key Management")]
+    public int availableKeys = 0; // Number of keys available to the player
+    public TextMeshProUGUI keyCountText; // UI text for displaying the number of keys
+    public Image keyImage; // UI image for the keys
+    public TextMeshProUGUI keyNameText; // UI text for the key name
+    public GameObject buyKeysPanel; // UI panel for buying keys
+    public TMP_Dropdown buyKeysDropdown; // Dropdown menu for selecting the number of keys to buy
+    public Button buyKeysButton; // Button to confirm key purchase
+    public GameObject UnlockButton; // Reference to the Unlock button
+
     [Header("Sound Effects")]
     public AudioSource audioSource;
     public AudioClip itemdrop_blue;
@@ -78,10 +88,43 @@ public class CaseOpeningManager : MonoBehaviour
         {
             Debug.LogError("No case selected.");
         }
+
+        UpdateKeyUI(); // Update the key UI at the start
+
+        // Add a listener to the dropdown to handle updates
+        buyKeysDropdown.onValueChanged.AddListener(UpdateBuyKeysButtonText);
+
+        // Initialize the BuyKeysButton text based on the default dropdown selection
+        UpdateBuyKeysButtonText(buyKeysDropdown.value);
+    }
+
+    // Method to update the BuyKeysButton text based on the selected dropdown option
+    public void UpdateBuyKeysButtonText(int dropdownValue)
+    {
+        if (buyKeysButton != null)
+        {
+            // Get the number of keys selected from the dropdown
+            int keysToBuy = int.Parse(buyKeysDropdown.options[dropdownValue].text);
+
+            // Calculate the total price
+            float totalPrice = keysToBuy * 2.35f;
+
+            // Update the button text
+            buyKeysButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{totalPrice:0.00}€"; // Format to two decimal places
+        }
     }
 
     public void OpenCase()
     {
+        if (availableKeys <= 0)
+        {
+            ShowBuyKeysPanel(); // Show the buy keys panel if there are no keys available
+            return;
+        }
+
+        availableKeys--; // Use a key to open the case
+        UpdateKeyUI(); // Update the key UI after using a key
+
         CaseMenu.SetActive(false);
         caseMenuBackground.SetActive(false);
 
@@ -240,6 +283,55 @@ public class CaseOpeningManager : MonoBehaviour
                 display.UpdateCaseContents(); // Update the showcase with the current skin
             }
         }
+    }
+
+    // Update the key UI with the current number of keys
+    public void UpdateKeyUI()
+    {
+        if (keyCountText != null)
+        {
+            keyCountText.text = availableKeys.ToString();
+        }
+        if (keyImage != null && availableKeys <= 0)
+        {
+            keyImage.color = Color.gray;
+        }
+        else if (keyImage != null)
+        {
+            keyImage.color = Color.white; // Set the image color back to white if keys are available
+        }
+
+        if (UnlockButton != null)
+        {
+            UnlockButton.SetActive(availableKeys > 0); // Enable UnlockButton if keys are available, otherwise disable it
+        }
+    }
+
+    // Show the panel for buying more keys
+    public void ShowBuyKeysPanel()
+    {
+        if (buyKeysPanel != null)
+        {
+            buyKeysPanel.SetActive(true);
+        }
+    }
+
+    // Close the panel for buying more keys
+    public void CloseBuyKeysPanel()
+    {
+        if (buyKeysPanel != null)
+        {
+            buyKeysPanel.SetActive(false);
+        }
+    }
+
+    // Function to be called when the player buys keys
+    public void BuyKeys()
+    {
+        int keysToBuy = int.Parse(buyKeysDropdown.options[buyKeysDropdown.value].text); // Get the number of keys selected in the dropdown
+        availableKeys += keysToBuy; // Add the purchased keys to the player's total
+        UpdateKeyUI(); // Update the key UI after the purchase
+        CloseBuyKeysPanel(); // Close the buy keys panel after the purchase
     }
 
     // Case opening animation happens here

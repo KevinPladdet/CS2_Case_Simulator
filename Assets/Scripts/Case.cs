@@ -6,5 +6,6 @@ public class Case : ScriptableObject
 {
     public string caseName;
     public Sprite caseImage;
+    public Sprite keyImage;
     public List<ShowcaseWeapon> caseSkins;
 }
