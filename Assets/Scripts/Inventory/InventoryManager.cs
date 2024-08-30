@@ -6,43 +6,50 @@ using TMPro;
 public class InventoryManager : MonoBehaviour
 {
     public List<GameObject> itemShowcases; // List of all itemShowcases (should be 45)
-
     public List<Case> cases; // List of all available cases
+
+    public TMP_Text pageNumberText;
+    public Button previousButton;
+    public Button nextButton;
+    public TMP_Text previousText;
+    public TMP_Text nextText;
+
+    private int currentPage = 1;
+    private int totalPages = 1;
 
     private void Start()
     {
+        UpdatePageButtons();
         PopulateInventory(); // Populate the inventory UI with keys
     }
 
-    // Method to populate the inventory UI with keys
+    // Method to populate the inventory UI with keys for the current page
     private void PopulateInventory()
     {
         int showcaseIndex = 0;
+        int startKeyIndex = (currentPage - 1) * itemShowcases.Count;
 
-        foreach (Case caseItem in cases)
+        // Deactivate all showcases first
+        foreach (GameObject showcase in itemShowcases)
         {
-            // Each key will be filled in an ItemShowcase
-            for (int i = 0; i < caseItem.keys; i++)
+            showcase.SetActive(false);
+        }
+
+        for (int i = startKeyIndex; i < cases.Count && showcaseIndex < itemShowcases.Count; i++)
+        {
+            Case caseItem = cases[i];
+            for (int j = 0; j < caseItem.keys; j++)
             {
                 if (showcaseIndex < itemShowcases.Count)
                 {
                     UpdateCaseUI(itemShowcases[showcaseIndex], caseItem);
-                    itemShowcases[showcaseIndex].SetActive(true); // Ensure the showcase is active
+                    itemShowcases[showcaseIndex].SetActive(true);
                     showcaseIndex++;
-                }
-                else
-                {
-                    Debug.LogWarning("Not enough ItemShowcases to display all keys.");
-                    return;
                 }
             }
         }
 
-        // Deactivate unused ItemShowcases
-        for (int i = showcaseIndex; i < itemShowcases.Count; i++)
-        {
-            itemShowcases[i].SetActive(false);
-        }
+        UpdatePageButtons();
     }
 
     // Updates the image and name of the key
@@ -58,6 +65,49 @@ public class InventoryManager : MonoBehaviour
     // Method to refresh the inventory UI
     public void RefreshInventory()
     {
+        CalculateTotalPages();
         PopulateInventory();
+    }
+
+    // Calculate the total number of pages needed based on the number of keys
+    private void CalculateTotalPages()
+    {
+        int totalKeys = 0;
+
+        foreach (Case caseItem in cases)
+        {
+            totalKeys += caseItem.keys;
+        }
+
+        totalPages = Mathf.CeilToInt((float)totalKeys / itemShowcases.Count);
+        if (totalPages < 1) totalPages = 1;
+
+        if (currentPage > totalPages) currentPage = totalPages;
+    }
+
+    // Update the state of page buttons and the page number text
+    private void UpdatePageButtons()
+    {
+        previousButton.interactable = currentPage > 1;
+        nextButton.interactable = currentPage < totalPages;
+        pageNumberText.text = $"{currentPage} / {totalPages}";
+    }
+
+    public void OnPreviousPage()
+    {
+        if (currentPage > 1)
+        {
+            currentPage--;
+            PopulateInventory();
+        }
+    }
+
+    public void OnNextPage()
+    {
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            PopulateInventory();
+        }
     }
 }
