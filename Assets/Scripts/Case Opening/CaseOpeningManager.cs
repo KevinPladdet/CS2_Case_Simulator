@@ -45,7 +45,6 @@ public class CaseOpeningManager : MonoBehaviour
     public List<GameObject> caseMenuWeaponShowcases = new List<GameObject>(); // List of showcases for displaying skins in the case menu
 
     [Header("Key Management")]
-    public int availableKeys = 0; // Number of keys available to the player
     public TextMeshProUGUI keyCountText; // UI text for displaying the number of keys
     public Image keyImage; // UI image for the keys
     public TextMeshProUGUI keyNameText; // UI text for the key name
@@ -117,13 +116,12 @@ public class CaseOpeningManager : MonoBehaviour
 
     public void OpenCase()
     {
-        if (availableKeys <= 0)
+        if (currentCase == null || !currentCase.UseKey())
         {
             ShowBuyKeysPanel(); // Show the buy keys panel if there are no keys available
             return;
         }
 
-        availableKeys--; // Use a key to open the case
         UpdateKeyUI(); // Update the key UI after using a key
 
         CaseMenu.SetActive(false);
@@ -177,10 +175,13 @@ public class CaseOpeningManager : MonoBehaviour
         // Update key UI when entering the case menu
         UpdateKeyUI();
 
-        // Automatically show the BuyKeysPanel if there are 0 keys
-        if (availableKeys <= 0)
+        if (currentCase.keys == 0)
         {
             ShowBuyKeysPanel();
+        }
+        else
+        {
+            CloseBuyKeysPanel();
         }
     }
 
@@ -295,17 +296,17 @@ public class CaseOpeningManager : MonoBehaviour
         }
     }
 
-    // Update the key UI with the current number of keys
+    // Method to update the key UI with the current number of keys for the selected case
     public void UpdateKeyUI()
     {
-        if (keyCountText != null)
+        if (keyCountText != null && currentCase != null)
         {
-            keyCountText.text = availableKeys.ToString();
+            keyCountText.text = currentCase.keys.ToString();
         }
 
         if (UnlockButton != null)
         {
-            UnlockButton.SetActive(availableKeys > 0); // Enable UnlockButton if keys are available, otherwise disable it
+            UnlockButton.SetActive(currentCase != null && currentCase.keys > 0); // Enable UnlockButton if keys are available, otherwise disable it
         }
     }
 
@@ -330,10 +331,13 @@ public class CaseOpeningManager : MonoBehaviour
     // Function to be called when the player buys keys
     public void BuyKeys()
     {
-        int keysToBuy = int.Parse(buyKeysDropdown.options[buyKeysDropdown.value].text); // Get the number of keys selected in the dropdown
-        availableKeys += keysToBuy; // Add the purchased keys to the player's total
-        UpdateKeyUI(); // Update the key UI after the purchase
-        CloseBuyKeysPanel(); // Close the buy keys panel after the purchase
+        if (currentCase != null)
+        {
+            int keysToBuy = int.Parse(buyKeysDropdown.options[buyKeysDropdown.value].text); // Get the number of keys selected in the dropdown
+            currentCase.AddKeys(keysToBuy); // Add the purchased keys to the current case
+            UpdateKeyUI(); // Update the key UI after the purchase
+            CloseBuyKeysPanel(); // Close the buy keys panel after the purchase
+        }
     }
 
     // Case opening animation happens here
@@ -497,13 +501,23 @@ public class CaseOpeningManager : MonoBehaviour
         {
             UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + " Case</b>"; // Set the unlock case text
             caseImage.sprite = currentCase.caseImage; // Set the case image
-            
-            keyImage.sprite = currentCase.keyImage; // Sets key image
 
-            keyNameText.text = currentCase.caseName + " Key"; // Sets keyNameText
+            keyImage.sprite = currentCase.keyImage; // Set the key image
+
+            keyNameText.text = currentCase.caseName + " Key"; // Set keyNameText
             keyNameTextTwo.text = currentCase.caseName + " Key";
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
+            UpdateKeyUI(); // Update the key UI for the newly selected case
+
+            if (currentCase.keys == 0)
+            {
+                ShowBuyKeysPanel();
+            }
+            else
+            {
+                CloseBuyKeysPanel();
+            }
         }
         else
         {
