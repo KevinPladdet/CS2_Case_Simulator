@@ -495,7 +495,7 @@ public class CaseOpeningManager : MonoBehaviour
 
         if (currentCase != null)
         {
-            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + "Case</b>"; // Set the unlock case text
+            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + " Case</b>"; // Set the unlock case text
             caseImage.sprite = currentCase.caseImage; // Set the case image
             
             keyImage.sprite = currentCase.keyImage; // Sets key image
