@@ -17,10 +17,15 @@ public class InventoryManager : MonoBehaviour
     private int currentPage = 1;
     private int totalPages = 1;
 
+    // Page button colors
+    public Color activeColor;
+    public Color inactiveColor;
+
     private void Start()
     {
-        UpdatePageButtons();
+        CalculateTotalPages();
         PopulateInventory(); // Populate the inventory UI with keys
+        UpdatePageButtons(); // Update button states and text
     }
 
     // Method to populate the inventory UI with keys for the current page
@@ -69,7 +74,7 @@ public class InventoryManager : MonoBehaviour
         PopulateInventory();
     }
 
-    // Calculate the total number of pages needed based on the number of keys
+    // Calculates how many pages there will be in total based on how many keys there are
     private void CalculateTotalPages()
     {
         int totalKeys = 0;
@@ -85,11 +90,17 @@ public class InventoryManager : MonoBehaviour
         if (currentPage > totalPages) currentPage = totalPages;
     }
 
-    // Update the state of page buttons and the page number text
     private void UpdatePageButtons()
     {
-        previousButton.interactable = currentPage > 1;
-        nextButton.interactable = currentPage < totalPages;
+        bool isOnFirstPage = currentPage == 1;
+        bool isOnLastPage = currentPage == totalPages;
+
+        previousButton.interactable = !isOnFirstPage;
+        nextButton.interactable = !isOnLastPage;
+
+        previousText.color = isOnFirstPage ? inactiveColor : activeColor;
+        nextText.color = isOnLastPage ? inactiveColor : activeColor;
+
         pageNumberText.text = $"{currentPage} / {totalPages}";
     }
 
