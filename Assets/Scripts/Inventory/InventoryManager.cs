@@ -27,6 +27,7 @@ public class InventoryManager : MonoBehaviour
                 if (showcaseIndex < itemShowcases.Count)
                 {
                     UpdateCaseUI(itemShowcases[showcaseIndex], caseItem);
+                    itemShowcases[showcaseIndex].SetActive(true); // Ensure the showcase is active
                     showcaseIndex++;
                 }
                 else
@@ -57,13 +58,6 @@ public class InventoryManager : MonoBehaviour
     // Method to refresh the inventory UI
     public void RefreshInventory()
     {
-        // Clear current showcases
-        foreach (GameObject itemShowcase in itemShowcases)
-        {
-            itemShowcase.SetActive(false);
-        }
-
-        // Repopulate the inventory
         PopulateInventory();
     }
 }
