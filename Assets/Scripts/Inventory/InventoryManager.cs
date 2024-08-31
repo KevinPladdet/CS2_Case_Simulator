@@ -28,6 +28,17 @@ public class InventoryManager : MonoBehaviour
     public Color activeColor;
     public Color inactiveColor;
 
+    // Rarity colors
+    private readonly Dictionary<Color32, int> rarityOrder = new Dictionary<Color32, int>()
+    {
+        { new Color32(177, 197, 218, 255), 0 }, // Grey
+        { new Color32(81, 103, 241, 255), 1 }, // Blue
+        { new Color32(132, 73, 247, 255), 2 }, // Purple
+        { new Color32(190, 48, 205, 255), 3 }, // Pink
+        { new Color32(206, 73, 74, 255), 4 }, // Red
+        { new Color32(239, 215, 55, 255), 5 }  // Gold
+    };
+
     private void Start()
     {
         // Populate keys inventory from cases
@@ -66,14 +77,18 @@ public class InventoryManager : MonoBehaviour
         UpdatePageButtons(inventory.Count);
     }
 
-    // Updates the image and name of the key
+    // Updates the image, name, and rarity color of the key
     private void UpdateCaseUI(GameObject itemShowcase, Key key)
     {
         Image keyImage = itemShowcase.transform.Find("SkinImage").GetComponent<Image>();
         TMP_Text keyNameText = itemShowcase.transform.Find("ItemTypeText").GetComponent<TMP_Text>();
+        Image rarityImage = itemShowcase.transform.Find("RarityImage").GetComponent<Image>();
 
         keyImage.sprite = key.keyImage;
         keyNameText.text = key.caseName + " Key";
+
+        // Set the RarityImage color to grey for keys
+        rarityImage.color = new Color32(177, 197, 218, 255); // Grey color
     }
 
     // Refreshes the keys inventory UI
@@ -138,12 +153,13 @@ public class InventoryManager : MonoBehaviour
         {
             case 0: // Newest
                 // Put sorting by newest here
+                // Will add this later
                 break;
             case 1: // Increasing Rarity
-                // Put sorting by increasing rarity here
+                keysInventory = keysInventory.OrderBy(k => GetRarityValue(k)).ToList();
                 break;
             case 2: // Decreasing Rarity
-                // Put sorting by decreasing rarity here
+                keysInventory = keysInventory.OrderByDescending(k => GetRarityValue(k)).ToList();
                 break;
             case 3: // Alphabetic A-Z
                 keysInventory = keysInventory.OrderBy(k => k.caseName).ToList();
@@ -155,6 +171,26 @@ public class InventoryManager : MonoBehaviour
 
         currentPage = 1; // Reset to the first page after sorting
         RefreshKeysInventory(); // Refresh inventory display
+    }
+
+    // Helper method to get the rarity value based on the color
+    private int GetRarityValue(Key key)
+    {
+        // Find the corresponding showcase to get the RarityImage color
+        var itemShowcase = itemShowcases.FirstOrDefault(showcase =>
+            showcase.activeSelf &&
+            showcase.transform.Find("ItemTypeText").GetComponent<TMP_Text>().text == key.caseName + " Key");
+
+        if (itemShowcase != null)
+        {
+            Color32 rarityColor = itemShowcase.transform.Find("RarityImage").GetComponent<Image>().color;
+            if (rarityOrder.TryGetValue(rarityColor, out int rarityValue))
+            {
+                return rarityValue;
+            }
+        }
+
+        return int.MaxValue; // If no matching color is found, put it at the end of the list
     }
 }
 
