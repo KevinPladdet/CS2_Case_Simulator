@@ -24,8 +24,8 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         CalculateTotalPages();
-        PopulateInventory(); // Populate the inventory UI with keys
-        UpdatePageButtons(); // Update button states and text
+        PopulateInventory(); // Populates the inventory UI with keys
+        UpdatePageButtons();
     }
 
     // Method to populate the inventory UI with keys for the current page
@@ -40,17 +40,32 @@ public class InventoryManager : MonoBehaviour
             showcase.SetActive(false);
         }
 
-        for (int i = startKeyIndex; i < cases.Count && showcaseIndex < itemShowcases.Count; i++)
+        int keyCount = 0; // Track the total keys added so far
+
+        // Loop through the cases and display the keys for the current page
+        for (int i = 0; i < cases.Count; i++)
         {
             Case caseItem = cases[i];
+
             for (int j = 0; j < caseItem.keys; j++)
             {
-                if (showcaseIndex < itemShowcases.Count)
+                if (keyCount >= startKeyIndex && showcaseIndex < itemShowcases.Count)
                 {
                     UpdateCaseUI(itemShowcases[showcaseIndex], caseItem);
                     itemShowcases[showcaseIndex].SetActive(true);
                     showcaseIndex++;
                 }
+                keyCount++;
+
+                if (showcaseIndex >= itemShowcases.Count)
+                {
+                    break; // Stop adding items when the showcase limit is reached
+                }
+            }
+
+            if (showcaseIndex >= itemShowcases.Count)
+            {
+                break; // Stop processing cases if the showcase limit is reached
             }
         }
 

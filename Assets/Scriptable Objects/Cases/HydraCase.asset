@@ -15,7 +15,7 @@ MonoBehaviour:
   caseName: Operation Hydra
   caseImage: {fileID: 21300000, guid: 3c049ea52c2cc644ab1acd0b67a61de4, type: 3}
   keyImage: {fileID: 21300000, guid: 674abf6686983734ca594d8d76bcebac, type: 3}
-  keys: 0
+  keys: 47
   caseSkins:
   - {fileID: 11400000, guid: 7021bb9bde53ff04eb98277bda760ffa, type: 2}
   - {fileID: 11400000, guid: d67fea298a5b7ba469c22af10794eef4, type: 2}
