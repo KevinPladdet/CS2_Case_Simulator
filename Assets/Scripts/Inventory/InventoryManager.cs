@@ -2,12 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq; // Import for sorting
+using System.Linq; // Using this for sorting
 
 public class InventoryManager : MonoBehaviour
 {
+    // Separate lists for keys and skins
     public List<GameObject> itemShowcases; // List of all itemShowcases (should be 45)
     public List<Case> cases; // List of all available cases
+    public List<Skin> skins; // List of all available skins
+
+    private List<Key> keysInventory = new List<Key>(); // List to store keys in the inventory
+    private List<Skin> skinsInventory = new List<Skin>(); // List to store skins in the inventory
 
     public TMP_Text pageNumberText;
     public Button previousButton;
@@ -25,14 +30,21 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
+        // Populate keys inventory from cases
+        foreach (Case caseItem in cases)
+        {
+            for (int i = 0; i < caseItem.keys; i++)
+            {
+                keysInventory.Add(new Key { caseName = caseItem.caseName, keyImage = caseItem.keyImage });
+            }
+        }
+
         sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
-        CalculateTotalPages();
-        PopulateInventory(); // Populates the inventory UI with keys
-        UpdatePageButtons();
+        RefreshKeysInventory();
     }
 
     // Method to populate the inventory UI with keys for the current page
-    private void PopulateInventory()
+    private void PopulateInventory(List<Key> inventory)
     {
         int showcaseIndex = 0;
         int startKeyIndex = (currentPage - 1) * itemShowcases.Count;
@@ -43,70 +55,51 @@ public class InventoryManager : MonoBehaviour
             showcase.SetActive(false);
         }
 
-        int keyCount = 0; // Track the total keys added so far
-
-        // Loop through the sorted cases and display the keys for the current page
-        foreach (Case caseItem in cases)
+        // Loop through the keys and display them for the current page
+        for (int i = startKeyIndex; i < startKeyIndex + itemShowcases.Count && i < inventory.Count; i++)
         {
-            for (int j = 0; j < caseItem.keys; j++)
-            {
-                if (keyCount >= startKeyIndex && showcaseIndex < itemShowcases.Count)
-                {
-                    UpdateCaseUI(itemShowcases[showcaseIndex], caseItem);
-                    itemShowcases[showcaseIndex].SetActive(true);
-                    showcaseIndex++;
-                }
-                keyCount++;
-
-                if (showcaseIndex >= itemShowcases.Count)
-                {
-                    break; // Stop adding items when the showcase limit is reached
-                }
-            }
-
-            if (showcaseIndex >= itemShowcases.Count)
-            {
-                break; // Stop processing cases if the showcase limit is reached
-            }
+            UpdateCaseUI(itemShowcases[showcaseIndex], inventory[i]);
+            itemShowcases[showcaseIndex].SetActive(true);
+            showcaseIndex++;
         }
 
-        UpdatePageButtons();
+        UpdatePageButtons(inventory.Count);
     }
 
     // Updates the image and name of the key
-    private void UpdateCaseUI(GameObject itemShowcase, Case caseItem)
+    private void UpdateCaseUI(GameObject itemShowcase, Key key)
     {
         Image keyImage = itemShowcase.transform.Find("SkinImage").GetComponent<Image>();
         TMP_Text keyNameText = itemShowcase.transform.Find("ItemTypeText").GetComponent<TMP_Text>();
 
-        keyImage.sprite = caseItem.keyImage;
-        keyNameText.text = caseItem.caseName + " Key";
+        keyImage.sprite = key.keyImage;
+        keyNameText.text = key.caseName + " Key";
     }
 
-    // Method to refresh the inventory UI
-    public void RefreshInventory()
+    // Refreshes the keys inventory UI
+    public void RefreshKeysInventory()
     {
-        CalculateTotalPages();
-        PopulateInventory();
+        CalculateTotalPages(keysInventory.Count);
+        PopulateInventory(keysInventory);
     }
 
-    // Calculates how many pages there will be in total based on how many keys there are
-    private void CalculateTotalPages()
+    // Refreshes the skins inventory UI
+    public void RefreshSkinsInventory()
     {
-        int totalKeys = 0;
+        CalculateTotalPages(skinsInventory.Count);
+        PopulateInventory(skinsInventory.Select(s => new Key { caseName = s.skinName, keyImage = s.skinImage }).ToList()); // Temporary conversion to use PopulateInventory
+    }
 
-        foreach (Case caseItem in cases)
-        {
-            totalKeys += caseItem.keys;
-        }
-
-        totalPages = Mathf.CeilToInt((float)totalKeys / itemShowcases.Count);
+    // Calculates how many pages there will be in total based on the inventory size
+    private void CalculateTotalPages(int itemCount)
+    {
+        totalPages = Mathf.CeilToInt((float)itemCount / itemShowcases.Count);
         if (totalPages < 1) totalPages = 1;
 
         if (currentPage > totalPages) currentPage = totalPages;
     }
 
-    private void UpdatePageButtons()
+    private void UpdatePageButtons(int itemCount)
     {
         bool isOnFirstPage = currentPage == 1;
         bool isOnLastPage = currentPage == totalPages;
@@ -125,7 +118,7 @@ public class InventoryManager : MonoBehaviour
         if (currentPage > 1)
         {
             currentPage--;
-            PopulateInventory();
+            RefreshKeysInventory();
         }
     }
 
@@ -134,25 +127,48 @@ public class InventoryManager : MonoBehaviour
         if (currentPage < totalPages)
         {
             currentPage++;
-            PopulateInventory();
+            RefreshKeysInventory();
         }
     }
 
-    // Method to handle dropdown selection changes
+    // Every dropdown sorting option
     public void OnSortOptionChanged(int optionIndex)
     {
         switch (optionIndex)
         {
-            case 0: // Alphabetic A-Z
-                cases = cases.OrderBy(c => c.caseName).ToList();
+            case 0: // Newest
+                // Put sorting by newest here
                 break;
-            case 1: // Alphabetic Z-A
-                cases = cases.OrderByDescending(c => c.caseName).ToList();
+            case 1: // Increasing Rarity
+                // Put sorting by increasing rarity here
                 break;
-                // Add more switch cases here for other sorting options
+            case 2: // Decreasing Rarity
+                // Put sorting by decreasing rarity here
+                break;
+            case 3: // Alphabetic A-Z
+                keysInventory = keysInventory.OrderBy(k => k.caseName).ToList();
+                break;
+            case 4: // Alphabetic Z-A
+                keysInventory = keysInventory.OrderByDescending(k => k.caseName).ToList();
+                break;
         }
 
         currentPage = 1; // Reset to the first page after sorting
-        RefreshInventory(); // Refresh inventory display
+        RefreshKeysInventory(); // Refresh inventory display
     }
+}
+
+// Helper classes to represent Key and Skin objects
+[System.Serializable]
+public class Key
+{
+    public string caseName;
+    public Sprite keyImage;
+}
+
+[System.Serializable]
+public class Skin
+{
+    public string skinName;
+    public Sprite skinImage;
 }
