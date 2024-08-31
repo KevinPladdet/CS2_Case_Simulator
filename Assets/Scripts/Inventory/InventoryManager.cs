@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq; // Import for sorting
 
 public class InventoryManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class InventoryManager : MonoBehaviour
     public Button nextButton;
     public TMP_Text previousText;
     public TMP_Text nextText;
+    public TMP_Dropdown sortDropdown;
 
     private int currentPage = 1;
     private int totalPages = 1;
@@ -23,6 +25,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
+        sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
         CalculateTotalPages();
         PopulateInventory(); // Populates the inventory UI with keys
         UpdatePageButtons();
@@ -42,11 +45,9 @@ public class InventoryManager : MonoBehaviour
 
         int keyCount = 0; // Track the total keys added so far
 
-        // Loop through the cases and display the keys for the current page
-        for (int i = 0; i < cases.Count; i++)
+        // Loop through the sorted cases and display the keys for the current page
+        foreach (Case caseItem in cases)
         {
-            Case caseItem = cases[i];
-
             for (int j = 0; j < caseItem.keys; j++)
             {
                 if (keyCount >= startKeyIndex && showcaseIndex < itemShowcases.Count)
@@ -135,5 +136,23 @@ public class InventoryManager : MonoBehaviour
             currentPage++;
             PopulateInventory();
         }
+    }
+
+    // Method to handle dropdown selection changes
+    public void OnSortOptionChanged(int optionIndex)
+    {
+        switch (optionIndex)
+        {
+            case 0: // Alphabetic A-Z
+                cases = cases.OrderBy(c => c.caseName).ToList();
+                break;
+            case 1: // Alphabetic Z-A
+                cases = cases.OrderByDescending(c => c.caseName).ToList();
+                break;
+                // Add more switch cases here for other sorting options
+        }
+
+        currentPage = 1; // Reset to the first page after sorting
+        RefreshInventory(); // Refresh inventory display
     }
 }
