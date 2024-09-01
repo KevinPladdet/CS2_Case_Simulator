@@ -17074,6 +17074,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0d35ecacaba47664ca3bbb41611d9371, type: 2}
   - {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
   skins: []
+  keysInventory: []
   pageNumberText: {fileID: 504933997}
   previousButton: {fileID: 1275565067}
   nextButton: {fileID: 1429639943}
@@ -48100,7 +48101,6 @@ MonoBehaviour:
   winLine: {fileID: 2054686262}
   floatValueObject: {fileID: 1403433713}
   closeOpeningButton: {fileID: 1706593339}
-  inventoryManager: {fileID: 399777815}
   CaseMenu: {fileID: 675676901}
   caseMenuBackground: {fileID: 332003865}
   openingMenu: {fileID: 1650604691}

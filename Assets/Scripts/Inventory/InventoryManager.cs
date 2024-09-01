@@ -2,16 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq; // Using this for sorting
+using System.Linq;
 
 public class InventoryManager : MonoBehaviour
 {
-    // Separate lists for keys and skins
     public List<GameObject> itemShowcases; // List of all itemShowcases (should be 45)
     public List<Case> cases; // List of all available cases
     public List<Skin> skins; // List of all available skins
 
-    private List<Key> keysInventory = new List<Key>(); // List to store keys in the inventory
+    public List<Key> keysInventory = new List<Key>(); // List to store keys in the inventory
     private List<Skin> skinsInventory = new List<Skin>(); // List to store skins in the inventory
 
     public TMP_Text pageNumberText;
@@ -41,7 +40,17 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        // Populate keys inventory from cases
+        sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
+        RefreshKeysInventory();
+    }
+
+    // Method to populate the inventory UI with keys for the current page
+    private void PopulateInventory()
+    {
+        // Clear the current keys inventory list
+        keysInventory.Clear();
+
+        // Rebuild keysInventory from the current cases
         foreach (Case caseItem in cases)
         {
             for (int i = 0; i < caseItem.keys; i++)
@@ -50,13 +59,6 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
-        RefreshKeysInventory();
-    }
-
-    // Method to populate the inventory UI with keys for the current page
-    private void PopulateInventory(List<Key> inventory)
-    {
         int showcaseIndex = 0;
         int startKeyIndex = (currentPage - 1) * itemShowcases.Count;
 
@@ -67,14 +69,14 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Loop through the keys and display them for the current page
-        for (int i = startKeyIndex; i < startKeyIndex + itemShowcases.Count && i < inventory.Count; i++)
+        for (int i = startKeyIndex; i < startKeyIndex + itemShowcases.Count && i < keysInventory.Count; i++)
         {
-            UpdateCaseUI(itemShowcases[showcaseIndex], inventory[i]);
+            UpdateCaseUI(itemShowcases[showcaseIndex], keysInventory[i]);
             itemShowcases[showcaseIndex].SetActive(true);
             showcaseIndex++;
         }
 
-        UpdatePageButtons(inventory.Count);
+        UpdatePageButtons(keysInventory.Count);
     }
 
     // Updates the image, name, and rarity color of the key
@@ -95,14 +97,7 @@ public class InventoryManager : MonoBehaviour
     public void RefreshKeysInventory()
     {
         CalculateTotalPages(keysInventory.Count);
-        PopulateInventory(keysInventory);
-    }
-
-    // Refreshes the skins inventory UI
-    public void RefreshSkinsInventory()
-    {
-        CalculateTotalPages(skinsInventory.Count);
-        PopulateInventory(skinsInventory.Select(s => new Key { caseName = s.skinName, keyImage = s.skinImage }).ToList()); // Temporary conversion to use PopulateInventory
+        PopulateInventory();
     }
 
     // Calculates how many pages there will be in total based on the inventory size
@@ -146,14 +141,13 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    // Every dropdown sorting option
+    // Dropdown sorting options
     public void OnSortOptionChanged(int optionIndex)
     {
         switch (optionIndex)
         {
             case 0: // Newest
-                // Put sorting by newest here
-                // Will add this later
+                // Sorting by newest will be implemented later
                 break;
             case 1: // Increasing Rarity
                 keysInventory = keysInventory.OrderBy(k => GetRarityValue(k)).ToList();
@@ -193,6 +187,7 @@ public class InventoryManager : MonoBehaviour
         return int.MaxValue; // If no matching color is found, put it at the end of the list
     }
 }
+
 
 // Helper classes to represent Key and Skin objects
 [System.Serializable]
