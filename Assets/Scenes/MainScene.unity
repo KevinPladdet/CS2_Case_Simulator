@@ -48109,7 +48109,7 @@ MonoBehaviour:
   amountOfSkins: 50
   initialSpeed: 5000
   slowdownDistance: 6000
-  minimumSpeed: 200
+  minimumSpeed: 150
   currentCase: {fileID: 11400000, guid: f825dcf57a0b62c4cb607d07d7d6fb9e, type: 2}
   caseMenuWeaponShowcases:
   - {fileID: 876092752}

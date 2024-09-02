@@ -150,15 +150,19 @@ public class InventoryManager : MonoBehaviour
                 // Sorting by newest will be implemented later
                 break;
             case 1: // Increasing Rarity
+                Debug.Log("sorting increasing rarity");
                 keysInventory = keysInventory.OrderBy(k => GetRarityValue(k)).ToList();
                 break;
             case 2: // Decreasing Rarity
+                Debug.Log("sorting decreasing rarity");
                 keysInventory = keysInventory.OrderByDescending(k => GetRarityValue(k)).ToList();
                 break;
             case 3: // Alphabetic A-Z
+                Debug.Log("sorting A-Z");
                 keysInventory = keysInventory.OrderBy(k => k.caseName).ToList();
                 break;
             case 4: // Alphabetic Z-A
+                Debug.Log("sorting Z-A");
                 keysInventory = keysInventory.OrderByDescending(k => k.caseName).ToList();
                 break;
         }
