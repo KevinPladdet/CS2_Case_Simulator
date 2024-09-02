@@ -40,6 +40,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
+        BuildKeysInventory(); // Build inventory once
         sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
         RefreshKeysInventory();
     }
@@ -47,18 +48,6 @@ public class InventoryManager : MonoBehaviour
     // Method to populate the inventory UI with keys for the current page
     private void PopulateInventory()
     {
-        // Clear the current keys inventory list
-        keysInventory.Clear();
-
-        // Rebuild keysInventory from the current cases
-        foreach (Case caseItem in cases)
-        {
-            for (int i = 0; i < caseItem.keys; i++)
-            {
-                keysInventory.Add(new Key { caseName = caseItem.caseName, keyImage = caseItem.keyImage });
-            }
-        }
-
         int showcaseIndex = 0;
         int startKeyIndex = (currentPage - 1) * itemShowcases.Count;
 
@@ -169,6 +158,21 @@ public class InventoryManager : MonoBehaviour
 
         currentPage = 1; // Reset to the first page after sorting
         RefreshKeysInventory(); // Refresh inventory display
+    }
+
+    // Build the keysInventory list once
+    private void BuildKeysInventory()
+    {
+        keysInventory.Clear();
+
+        // Rebuild keysInventory from the current cases
+        foreach (Case caseItem in cases)
+        {
+            for (int i = 0; i < caseItem.keys; i++)
+            {
+                keysInventory.Add(new Key { caseName = caseItem.caseName, keyImage = caseItem.keyImage });
+            }
+        }
     }
 
     // Helper method to get the rarity value based on the color
