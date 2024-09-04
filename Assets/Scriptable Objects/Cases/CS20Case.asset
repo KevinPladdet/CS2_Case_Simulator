@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd264c4bd088d6408b4900ce8ef8f0b, type: 3}
+  m_Name: CS20Case
+  m_EditorClassIdentifier: 
+  caseName: CS20
+  caseImage: {fileID: 21300000, guid: 1259e306ed3e1bb46a74f18aafd18d19, type: 3}
+  keyImage: {fileID: 21300000, guid: 1bb47f281c5575a44b654cd3fa61c99a, type: 3}
+  keys: 0
+  caseSkins:
+  - {fileID: 11400000, guid: e6c3fc4cfe875f341bd0a96e378e8397, type: 2}
+  - {fileID: 11400000, guid: 3241b3ad56f723445b62124debe30f62, type: 2}
+  - {fileID: 11400000, guid: 971e9d2d3e03b7e48bebfbac28f045d5, type: 2}
+  - {fileID: 11400000, guid: 1be6d64a95f75c84f97fcadb88076c78, type: 2}
+  - {fileID: 11400000, guid: f490881ffe9ac6245b0aca9dc821354c, type: 2}
+  - {fileID: 11400000, guid: 36d99766f2404d84dab328befc7ce587, type: 2}
+  - {fileID: 11400000, guid: e7f18ca6b4c1e6242a986b22055981db, type: 2}
+  - {fileID: 11400000, guid: 8b13e9c270190c346be3004d39a9de5e, type: 2}
+  - {fileID: 11400000, guid: 3a3edb1a1da966b4d9f397b8cc90cf09, type: 2}
+  - {fileID: 11400000, guid: 04d1b78696da4ae41a48b06375369b63, type: 2}
+  - {fileID: 11400000, guid: f384d94d06d242e4691343bd5340db73, type: 2}
+  - {fileID: 11400000, guid: 53834fddec7f28546984ba763ead17a8, type: 2}
+  - {fileID: 11400000, guid: e5168336c08ff0b4587cad02d26278e5, type: 2}
+  - {fileID: 11400000, guid: ba783243e33356049960d5252658f8d8, type: 2}
+  - {fileID: 11400000, guid: 24bee053e3716b948929eda39b7df32b, type: 2}
+  - {fileID: 11400000, guid: 8ceb0656075baae46a14978a1ea38c0b, type: 2}
+  - {fileID: 11400000, guid: 6ff0d388d91bea048b38afa9df464525, type: 2}
+  - {fileID: 11400000, guid: ec42184bc4d7e2243b481799df600c4a, type: 2}

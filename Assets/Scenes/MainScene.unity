@@ -2232,7 +2232,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentCase
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 166c7f35c42401749870fe5d2814d11c, type: 2}
           m_ObjectArgumentAssemblyTypeName: Case, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -6340,7 +6340,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentCase
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 7fc73c25549cd69409059dc172e16174, type: 2}
           m_ObjectArgumentAssemblyTypeName: Case, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -17000,6 +17000,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
   - {fileID: 11400000, guid: 59d4772c6d765c74e896b066fbd5549f, type: 2}
   - {fileID: 11400000, guid: 7968fc9f167a46e4ebd504ee8632e3c1, type: 2}
+  - {fileID: 11400000, guid: 166c7f35c42401749870fe5d2814d11c, type: 2}
+  - {fileID: 11400000, guid: 7fc73c25549cd69409059dc172e16174, type: 2}
   skins: []
   keysInventory: []
   pageNumberText: {fileID: 504933997}
@@ -38054,7 +38056,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Item Name
+  m_text: CS20 Case
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
   m_sharedMaterial: {fileID: -3448558004506901164, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
@@ -41341,7 +41343,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7fe8fa2e7ad850c499b14c0db494d9c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1259e306ed3e1bb46a74f18aafd18d19, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -59553,10 +59555,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_NormalColor: {r: 0.85882354, g: 0.85882354, b: 0.85882354, a: 0.4745098}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -68164,7 +68166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1666673785}
   m_Layer: 0
-  m_Name: WeaponCase8
+  m_Name: CS20Case
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
