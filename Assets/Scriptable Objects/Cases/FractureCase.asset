@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd264c4bd088d6408b4900ce8ef8f0b, type: 3}
+  m_Name: FractureCase
+  m_EditorClassIdentifier: 
+  caseName: Fracture
+  caseImage: {fileID: 21300000, guid: cc456b752b4208b4190adc90f1cde3cf, type: 3}
+  keyImage: {fileID: 21300000, guid: 4067a95c08523be439509be29ef1e53c, type: 3}
+  keys: 0
+  caseSkins:
+  - {fileID: 11400000, guid: f856ea04ad2c67442be15f0c0e41d7a4, type: 2}
+  - {fileID: 11400000, guid: f361e3559b3e79340b9f7f64cca2e594, type: 2}
+  - {fileID: 11400000, guid: 34a3cd01635e6694a9ca6f38e0432403, type: 2}
+  - {fileID: 11400000, guid: d39b12d9cd4baf5418169bff7b6f42bd, type: 2}
+  - {fileID: 11400000, guid: 68d1b3acc27b2a1429647ade32770eb5, type: 2}
+  - {fileID: 11400000, guid: 3b4c0c23fd1c788478f968f06e328b03, type: 2}
+  - {fileID: 11400000, guid: f89db0224a0e40c42b52211b27ccc83a, type: 2}
+  - {fileID: 11400000, guid: 2fbc3730bf0018b499155a0bb04835e1, type: 2}
+  - {fileID: 11400000, guid: 69993df02ee04434babd12853f89f378, type: 2}
+  - {fileID: 11400000, guid: dfab90b9cd47fca438dd00661ce41173, type: 2}
+  - {fileID: 11400000, guid: 156d72966a5202141b1525721ee95289, type: 2}
+  - {fileID: 11400000, guid: 06a5d41599a1f8f4e8e95b6a9a042866, type: 2}
+  - {fileID: 11400000, guid: 6c81a617b9fb1bf4b98f9d1200198b02, type: 2}
+  - {fileID: 11400000, guid: 7e854b8bb9b4800459c32ed931967bcf, type: 2}
+  - {fileID: 11400000, guid: 5aa80a01a04fb9f4a984928bb2c67583, type: 2}
+  - {fileID: 11400000, guid: b8ea1753943fc964d9b84b461b7cc2e7, type: 2}
+  - {fileID: 11400000, guid: e2aaabf17b0df7b4e80e1e7e465316e3, type: 2}
+  - {fileID: 11400000, guid: 7ee78b9daf80ac94f9de5a0e3a0fae28, type: 2}

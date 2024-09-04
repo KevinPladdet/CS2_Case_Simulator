@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd264c4bd088d6408b4900ce8ef8f0b, type: 3}
+  m_Name: HorizonCase
+  m_EditorClassIdentifier: 
+  caseName: Horizon
+  caseImage: {fileID: 21300000, guid: 3de99d08f3185e64ba6c9fc9a64c3bb6, type: 3}
+  keyImage: {fileID: 21300000, guid: 52cfbe8dbafe42b4190d38f17af75a81, type: 3}
+  keys: 0
+  caseSkins:
+  - {fileID: 11400000, guid: ae0bbcb20594b854697ec6c17f19dcd9, type: 2}
+  - {fileID: 11400000, guid: df049c1c4136f2f42881ff69c73729e9, type: 2}
+  - {fileID: 11400000, guid: dddd4634454c7ba49abf2366cee0d3fa, type: 2}
+  - {fileID: 11400000, guid: 2d9036f25d4805042bea4db597e2a196, type: 2}
+  - {fileID: 11400000, guid: 96d1fe6e4c6aae140899bdb77a4384ac, type: 2}
+  - {fileID: 11400000, guid: de086bfd9d0202245a9befc33c610f06, type: 2}
+  - {fileID: 11400000, guid: 738b8dea2b2d13f47a8d646272a17b54, type: 2}
+  - {fileID: 11400000, guid: 414b96a00c21b7f4d9dc8a031e5c726c, type: 2}
+  - {fileID: 11400000, guid: ec2584fa1320a4347bebef1e8700e67b, type: 2}
+  - {fileID: 11400000, guid: bd7c18c273c8daf4898958850a2e0cb6, type: 2}
+  - {fileID: 11400000, guid: 2d420f108af345740ae4948b9bacd6ac, type: 2}
+  - {fileID: 11400000, guid: cf1389d4ecd3b2e409067fe128f97edf, type: 2}
+  - {fileID: 11400000, guid: 787c0e4043d353a4296ac17477179f1a, type: 2}
+  - {fileID: 11400000, guid: b730430b558d4ce458ff8f26252904d2, type: 2}
+  - {fileID: 11400000, guid: 5ac49d3f46fc72f438ffe2550563d6f6, type: 2}
+  - {fileID: 11400000, guid: 91ccb6e01e8db754492c639df5b03d9c, type: 2}
+  - {fileID: 11400000, guid: 1f9388f4e48220742b7b52ba207d042b, type: 2}
+  - {fileID: 11400000, guid: 8b7538dda25552547ac4c9e08de1cfbd, type: 2}

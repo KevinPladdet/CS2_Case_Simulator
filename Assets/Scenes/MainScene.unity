@@ -17073,6 +17073,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdb459c85d8282e438c9a0bb95ac820d, type: 2}
   - {fileID: 11400000, guid: 0d35ecacaba47664ca3bbb41611d9371, type: 2}
   - {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
+  - {fileID: 11400000, guid: 59d4772c6d765c74e896b066fbd5549f, type: 2}
+  - {fileID: 11400000, guid: 7968fc9f167a46e4ebd504ee8632e3c1, type: 2}
   skins: []
   keysInventory: []
   pageNumberText: {fileID: 504933997}
@@ -19160,7 +19162,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Item Name
+  m_text: Horizon Case
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
   m_sharedMaterial: {fileID: -3448558004506901164, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
@@ -27332,7 +27334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7fe8fa2e7ad850c499b14c0db494d9c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53ce5cbb6b63f1e4f8d7ffc4386f8f58, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -28801,7 +28803,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentCase
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 7968fc9f167a46e4ebd504ee8632e3c1, type: 2}
           m_ObjectArgumentAssemblyTypeName: Case, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -33014,7 +33016,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7fe8fa2e7ad850c499b14c0db494d9c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3de99d08f3185e64ba6c9fc9a64c3bb6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -33648,7 +33650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 814796037}
   m_Layer: 0
-  m_Name: WeaponCase7
+  m_Name: ClutchCase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40927,7 +40929,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Item Name
+  m_text: Clutch Case
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
   m_sharedMaterial: {fileID: -3448558004506901164, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
@@ -56843,7 +56845,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1441791003}
   m_Layer: 0
-  m_Name: WeaponCase5
+  m_Name: FractureCase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59726,7 +59728,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Item Name
+  m_text: Fracture Case
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
   m_sharedMaterial: {fileID: -3448558004506901164, guid: 9ab32c34e2bfb7148882aa641c8c0ce2, type: 2}
@@ -63589,7 +63591,7 @@ MonoBehaviour:
         m_MethodName: SetCurrentCase
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 6534cd90e89ddbc489bf22682fcbf1d9, type: 2}
+          m_ObjectArgument: {fileID: 11400000, guid: 59d4772c6d765c74e896b066fbd5549f, type: 2}
           m_ObjectArgumentAssemblyTypeName: Case, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -72332,7 +72334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7fe8fa2e7ad850c499b14c0db494d9c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc456b752b4208b4190adc90f1cde3cf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -86546,7 +86548,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2101246372}
   m_Layer: 0
-  m_Name: WeaponCase6
+  m_Name: HorizonCase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

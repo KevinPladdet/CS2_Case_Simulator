@@ -15,7 +15,7 @@ MonoBehaviour:
   caseName: Operation Broken Fang
   caseImage: {fileID: 21300000, guid: 87a53e2634b18b84fb373f7fd83666bc, type: 3}
   keyImage: {fileID: 21300000, guid: f955a5766f8d46a45b4e404e05cd8cb6, type: 3}
-  keys: 18
+  keys: 0
   caseSkins:
   - {fileID: 11400000, guid: 8973a8721426f0f4aa2940608eef89b8, type: 2}
   - {fileID: 11400000, guid: b42d271de06d74048bfe1a370cedd05f, type: 2}
