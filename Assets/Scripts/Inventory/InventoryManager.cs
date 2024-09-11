@@ -40,7 +40,6 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        BuildKeysInventory();
         sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
         RefreshKeysInventory();
     }
@@ -85,9 +84,7 @@ public class InventoryManager : MonoBehaviour
     // Refreshes the keys inventory UI
     public void RefreshKeysInventory()
     {
-        BuildKeysInventory();
-        CalculateTotalPages(keysInventory.Count);
-        PopulateInventory();
+        OnSortOptionChanged(sortDropdown.value); // Saves sorting index
     }
 
     public void RefreshSortKeysInventory()
@@ -124,7 +121,7 @@ public class InventoryManager : MonoBehaviour
         if (currentPage > 1)
         {
             currentPage--;
-            RefreshKeysInventory();
+            RefreshSortKeysInventory();
         }
     }
 
@@ -133,7 +130,7 @@ public class InventoryManager : MonoBehaviour
         if (currentPage < totalPages)
         {
             currentPage++;
-            RefreshKeysInventory();
+            RefreshSortKeysInventory();
         }
     }
 
@@ -144,6 +141,8 @@ public class InventoryManager : MonoBehaviour
         {
             case 0: // Newest
                 // Sorting by newest will be implemented later
+                Debug.Log("sorting newest");
+                BuildKeysInventory();
                 break;
             case 1: // Increasing Rarity
                 Debug.Log("sorting increasing rarity");
