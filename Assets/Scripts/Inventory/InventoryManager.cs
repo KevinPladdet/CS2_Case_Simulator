@@ -40,7 +40,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        BuildKeysInventory(); // Build inventory once
+        BuildKeysInventory();
         sortDropdown.onValueChanged.AddListener(OnSortOptionChanged); // Add listener for dropdown changes
         RefreshKeysInventory();
     }
@@ -84,6 +84,13 @@ public class InventoryManager : MonoBehaviour
 
     // Refreshes the keys inventory UI
     public void RefreshKeysInventory()
+    {
+        BuildKeysInventory();
+        CalculateTotalPages(keysInventory.Count);
+        PopulateInventory();
+    }
+
+    public void RefreshSortKeysInventory()
     {
         CalculateTotalPages(keysInventory.Count);
         PopulateInventory();
@@ -140,24 +147,28 @@ public class InventoryManager : MonoBehaviour
                 break;
             case 1: // Increasing Rarity
                 Debug.Log("sorting increasing rarity");
+                BuildKeysInventory();
                 keysInventory = keysInventory.OrderBy(k => GetRarityValue(k)).ToList();
                 break;
             case 2: // Decreasing Rarity
                 Debug.Log("sorting decreasing rarity");
+                BuildKeysInventory();
                 keysInventory = keysInventory.OrderByDescending(k => GetRarityValue(k)).ToList();
                 break;
             case 3: // Alphabetic A-Z
                 Debug.Log("sorting A-Z");
+                BuildKeysInventory();
                 keysInventory = keysInventory.OrderBy(k => k.caseName).ToList();
                 break;
             case 4: // Alphabetic Z-A
                 Debug.Log("sorting Z-A");
+                BuildKeysInventory();
                 keysInventory = keysInventory.OrderByDescending(k => k.caseName).ToList();
                 break;
         }
 
         currentPage = 1; // Reset to the first page after sorting
-        RefreshKeysInventory(); // Refresh inventory display
+        RefreshSortKeysInventory(); // Refresh inventory display
     }
 
     // Build the keysInventory list once
