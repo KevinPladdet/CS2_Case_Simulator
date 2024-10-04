@@ -213,7 +213,23 @@ public class CaseOpeningManager : MonoBehaviour
             GameObject showcase = Instantiate(weaponShowcasePrefab, position, Quaternion.identity);
             showcase.transform.SetParent(openingContents, false); // Set the showcase as a child of the opening contents
 
-            ShowcaseWeapon selectedSkin = GetRandomSkinByRarity(); // Get a random skin based on rarity
+            ShowcaseWeapon selectedSkin;
+
+            // Allow the chance for gold on only the Winning Showcase
+            if (i == amountOfSkins - 5)
+            {
+                winningIndex = i;
+                showcase.name = "Winning Showcase";
+
+                // Winning Showcase can get the gold
+                selectedSkin = GetRandomSkinByRarity(includeGold: true);
+            }
+            else
+            {
+                // All other Showcases can not get the gold
+                selectedSkin = GetRandomSkinByRarity(includeGold: false);
+            }
+
             WeaponDisplay display = showcase.GetComponent<WeaponDisplay>();
             if (display != null)
             {
@@ -222,17 +238,11 @@ public class CaseOpeningManager : MonoBehaviour
             }
 
             showcase.name = "WeaponShowcase_" + (i + 1); // Name the showcase
-
-            if (i == amountOfSkins - 5)
-            {
-                winningIndex = i;
-                showcase.name = "Winning Showcase"; // Name the winning showcase
-            }
         }
     }
 
     // Get a random skin from the current case based on rarity
-    ShowcaseWeapon GetRandomSkinByRarity()
+    ShowcaseWeapon GetRandomSkinByRarity(bool includeGold = true)
     {
         if (currentCase == null)
         {
@@ -240,11 +250,22 @@ public class CaseOpeningManager : MonoBehaviour
             return null;
         }
 
+        // Adjust rarityDropChances to enable / disable the chance for a gold
+        Dictionary<Color32, float> adjustedRarityDropChances = new Dictionary<Color32, float>(rarityDropChances);
+
+        if (!includeGold)
+        {
+            adjustedRarityDropChances.Remove(new Color32(239, 215, 55, 255)); // Remove gold from the chances
+        }
+
         // Calculate the total weight of all skins
         float totalWeight = 0f;
         foreach (ShowcaseWeapon skin in currentCase.caseSkins)
         {
-            totalWeight += rarityDropChances[skin.skinRarity];
+            if (adjustedRarityDropChances.ContainsKey(skin.skinRarity))
+            {
+                totalWeight += adjustedRarityDropChances[skin.skinRarity];
+            }
         }
 
         // Select a random value and pick the corresponding skin.
@@ -253,10 +274,13 @@ public class CaseOpeningManager : MonoBehaviour
 
         foreach (ShowcaseWeapon skin in currentCase.caseSkins)
         {
-            cumulativeWeight += rarityDropChances[skin.skinRarity];
-            if (randomValue < cumulativeWeight)
+            if (adjustedRarityDropChances.ContainsKey(skin.skinRarity))
             {
-                return skin;
+                cumulativeWeight += adjustedRarityDropChances[skin.skinRarity];
+                if (randomValue < cumulativeWeight)
+                {
+                    return skin;
+                }
             }
         }
 
@@ -492,23 +516,23 @@ public class CaseOpeningManager : MonoBehaviour
         }
     }
 
-    // Selecting cases from the inventory menu with On Click() event from a button
+    // This method is on used for when you click on a case to select it
     public void SetCurrentCase(Case selectedCase)
     {
         currentCase = selectedCase;
 
         if (currentCase != null)
         {
-            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + " Case</b>"; // Set the unlock case text
-            caseImage.sprite = currentCase.caseImage; // Set the case image
+            UnlockCaseText.text = "Unlock <b>" + currentCase.caseName + " Case</b>"; // Sets the unlock case text
+            caseImage.sprite = currentCase.caseImage; // Sets the case image
 
-            keyImage.sprite = currentCase.keyImage; // Set the key image
+            keyImage.sprite = currentCase.keyImage; // Sets the key image
 
-            keyNameText.text = currentCase.caseName + " Key"; // Set keyNameText
+            keyNameText.text = currentCase.caseName + " Key"; // Sets keyNameText
             keyNameTextTwo.text = currentCase.caseName + " Key";
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
-            UpdateKeyUI(); // Update the key UI for the newly selected case
+            UpdateKeyUI(); // Update the key UI for the selected case
 
             if (currentCase.keys == 0)
             {
