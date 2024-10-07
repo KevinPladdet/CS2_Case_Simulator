@@ -10,9 +10,13 @@ public class CaseOpeningManager : MonoBehaviour
     [Header("References")]
     public GameObject weaponShowcasePrefab;
     public Transform openingContents; // Contains every weapon showcase for the opening menu
-    public Transform winLine;
-    public GameObject floatValueObject;
-    public GameObject closeOpeningButton;
+    [SerializeField] private Transform winLine;
+    
+    [Header("After Pull Menu")]
+    [SerializeField] private GameObject afterPullMenu;
+    [SerializeField] private TextMeshProUGUI floatValueText;
+    [SerializeField] private TextMeshProUGUI exteriorText;
+    [SerializeField] private TextMeshProUGUI patternText;
 
     [Header("Menu Stuff")]
     public GameObject CaseMenu;
@@ -34,6 +38,7 @@ public class CaseOpeningManager : MonoBehaviour
 
     private float winLineOffDistance;
     private float floatValue;
+    private float patternValue;
 
     [Header("Cases")]
     public Case currentCase; // The case that is currently selected in the case menu
@@ -127,8 +132,7 @@ public class CaseOpeningManager : MonoBehaviour
         CaseMenu.SetActive(false);
         caseMenuBackground.SetActive(false);
 
-        floatValueObject.SetActive(false);
-        closeOpeningButton.SetActive(false);
+        afterPullMenu.SetActive(false);
 
         openingMenu.SetActive(true);
 
@@ -138,6 +142,7 @@ public class CaseOpeningManager : MonoBehaviour
         // Randomizes winLine off distance and the float value
         winLineOffDistance = Random.Range(-0.75f, 0.15f);
         floatValue = Random.Range(0f, 1f);
+        patternValue = Random.Range(0f, 1000f);
 
         // Reset the initial positions of all showcases to ensure proper animation
         for (int i = 0; i < openingContents.childCount; i++)
@@ -165,8 +170,7 @@ public class CaseOpeningManager : MonoBehaviour
 
     public void ExitCase()
     {
-        floatValueObject.SetActive(false);
-        closeOpeningButton.SetActive(false);
+        afterPullMenu.SetActive(false);
         openingMenu.SetActive(false);
 
         CaseMenu.SetActive(true);
@@ -438,8 +442,16 @@ public class CaseOpeningManager : MonoBehaviour
             if (winLineCenterX >= minTargetX && winLineCenterX <= maxTargetX)
             {
                 // Pulled skin / case animation ended
-                floatValueObject.SetActive(true);
-                floatValueObject.GetComponent<TextMeshProUGUI>().text = floatValue.ToString("F7");
+                afterPullMenu.SetActive(true);
+                floatValueText.text = "<b>Wear Rating</b>: " + floatValue.ToString("F7");
+
+                patternText.text = "<b>Pattern Template</b>: " + patternValue.ToString("F0");
+
+                // Check Exterior
+                string condition = GetPreciseCondition(floatValue);
+
+                // Update exteriorText with GetPreciseCondition
+                exteriorText.text = "<b>Exterior</b>: " + condition;
 
                 // Enable the text components of the winning showcase.
                 TextMeshProUGUI[] textComponents = winningShowcase.GetComponentsInChildren<TextMeshProUGUI>();
@@ -454,13 +466,70 @@ public class CaseOpeningManager : MonoBehaviour
 
                 // Play the appropriate sound effect for the winning showcase
                 PlayItemDropSound(winningShowcase);
-
-                closeOpeningButton.SetActive(true);
+                
                 break;
             }
 
             yield return null;
         }
+    }
+
+    // Updates exteriorText with a precise float
+    private string GetPreciseCondition(float floatValue)
+    {
+        // Makes it so that if a skin is (for exampel) 7.00000001 it will be Minimal Wear
+        float roundedValue = Mathf.Round(floatValue * 1000000f) / 1000000f;
+
+        if (roundedValue <= 0.07f)
+        {
+            return "Factory New";
+        }
+        else if (roundedValue > 0.07f && roundedValue <= 0.15f)
+        {
+            if (Mathf.Approximately(floatValue, 0.07f))
+            {
+                return "Factory New";
+            }
+            else
+            {
+                return "Minimal Wear";
+            }
+        }
+        else if (roundedValue > 0.15f && roundedValue <= 0.37f)
+        {
+            if (Mathf.Approximately(floatValue, 0.15f))
+            {
+                return "Minimal Wear";
+            }
+            else
+            {
+                return "Field-Tested";
+            }
+        }
+        else if (roundedValue > 0.37f && roundedValue <= 0.45f)
+        {
+            if (Mathf.Approximately(floatValue, 0.37f))
+            {
+                return "Field-Tested";
+            }
+            else
+            {
+                return "Well-Worn";
+            }
+        }
+        else if (roundedValue > 0.45f && roundedValue <= 1.0f)
+        {
+            if (Mathf.Approximately(floatValue, 0.45f))
+            {
+                return "Well-Worn";
+            }
+            else
+            {
+                return "Battle-Scarred";
+            }
+        }
+
+        return "Invalid";
     }
 
     void PlayScrollSound(Transform showcase)
