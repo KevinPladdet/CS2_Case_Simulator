@@ -6,6 +6,7 @@ public class Case : ScriptableObject
 {
     public string caseName;
     public Sprite caseImage;
+    public Sprite collectionImage;
     public Sprite keyImage;
     public int keys; // Tracks the number of keys available for this case
     public List<ShowcaseWeapon> caseSkins;

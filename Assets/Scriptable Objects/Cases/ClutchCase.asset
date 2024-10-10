@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   caseName: Clutch
   caseImage: {fileID: 21300000, guid: 53ce5cbb6b63f1e4f8d7ffc4386f8f58, type: 3}
+  collectionImage: {fileID: 21300000, guid: 807fe0051b58c4c4ea0c2cebd6a602dc, type: 3}
   keyImage: {fileID: 21300000, guid: 223e58b660f6f4b41b6e18e81f310005, type: 3}
   keys: 0
   caseSkins:

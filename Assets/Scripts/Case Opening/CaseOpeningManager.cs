@@ -17,6 +17,10 @@ public class CaseOpeningManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI floatValueText;
     [SerializeField] private TextMeshProUGUI exteriorText;
     [SerializeField] private TextMeshProUGUI patternText;
+    [SerializeField] private TextMeshProUGUI winningSkinNameText;
+    [SerializeField] private TextMeshProUGUI collectionNameText;
+    [SerializeField] private Image rarityLineImage;
+    [SerializeField] private Image collectionLogo;
 
     [Header("Menu Stuff")]
     public GameObject CaseMenu;
@@ -443,6 +447,29 @@ public class CaseOpeningManager : MonoBehaviour
             {
                 // Pulled skin / case animation ended
                 afterPullMenu.SetActive(true);
+
+                // Set up variables
+                TextMeshProUGUI weaponTypeText = null;
+                TextMeshProUGUI weaponSkinText = null;
+
+                // Get the WeaponTypeText and WeaponSkinText from the winning showcase
+                TextMeshProUGUI[] textComponents = winningShowcase.GetComponentsInChildren<TextMeshProUGUI>();
+
+                foreach (TextMeshProUGUI textComponent in textComponents)
+                {
+                    if (textComponent.gameObject.name == "WeaponTypeText")
+                    {
+                        weaponTypeText = textComponent;
+                    }
+                    else if (textComponent.gameObject.name == "WeaponSkinText")
+                    {
+                        weaponSkinText = textComponent;
+                    }
+                }
+
+                // Combine the Weapon Type and Weapon Skin into the winningSkinNameText
+                winningSkinNameText.text = $"{weaponTypeText.text} | {weaponSkinText.text}";
+
                 floatValueText.text = "<b>Wear Rating</b>: " + floatValue.ToString("F7");
 
                 patternText.text = "<b>Pattern Template</b>: " + patternValue.ToString("F0");
@@ -453,16 +480,23 @@ public class CaseOpeningManager : MonoBehaviour
                 // Update exteriorText with GetPreciseCondition
                 exteriorText.text = "<b>Exterior</b>: " + condition;
 
-                // Enable the text components of the winning showcase.
-                TextMeshProUGUI[] textComponents = winningShowcase.GetComponentsInChildren<TextMeshProUGUI>();
-                foreach (TextMeshProUGUI textComponent in textComponents)
+                // Set up variable
+                Image rarityImage = null;
+
+                // Get the RarityImage from the winning showcase
+                Image[] imageComponents = winningShowcase.GetComponentsInChildren<Image>();
+
+                foreach (Image img in imageComponents)
                 {
-                    if (textComponent.gameObject.name == "WeaponTypeText" ||
-                        textComponent.gameObject.name == "WeaponSkinText")
+                    if (img.gameObject.name == "RarityImage")
                     {
-                        textComponent.enabled = true;
+                        rarityImage = img;
+                        break;
                     }
                 }
+                
+                // Change the rarityLineImage color to the color of the rarityImage
+                rarityLineImage.color = rarityImage.color;
 
                 // Play the appropriate sound effect for the winning showcase
                 PlayItemDropSound(winningShowcase);
@@ -599,6 +633,9 @@ public class CaseOpeningManager : MonoBehaviour
 
             keyNameText.text = currentCase.caseName + " Key"; // Sets keyNameText
             keyNameTextTwo.text = currentCase.caseName + " Key";
+
+            collectionNameText.text = currentCase.caseName + " Collection"; // Sets collection name
+            collectionLogo.sprite = currentCase.collectionImage; // Sets collection logo
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
             UpdateKeyUI(); // Update the key UI for the selected case
