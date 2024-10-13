@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cd264c4bd088d6408b4900ce8ef8f0b, type: 3}
+  m_Name: KilowattCase
+  m_EditorClassIdentifier: 
+  caseName: Kilowatt
+  caseImage: {fileID: 21300000, guid: 7fedbfb03927dbc499b4b3bd2c4f3004, type: 3}
+  collectionImage: {fileID: 21300000, guid: 92325024b80d3c647ac5f83a8c2e50b4, type: 3}
+  keyImage: {fileID: 21300000, guid: 0201cea261c017c47a05f4d4adb6b77a, type: 3}
+  keys: 0
+  caseSkins:
+  - {fileID: 11400000, guid: 976037eaa5b3c3f44bafc36de86e4904, type: 2}
+  - {fileID: 11400000, guid: f0f389865e8a30a4f90c615f85551a3f, type: 2}
+  - {fileID: 11400000, guid: e1bb593594da017449964efa43c4ee79, type: 2}
+  - {fileID: 11400000, guid: bf714b498480d344699a817d9b9ff0ee, type: 2}
+  - {fileID: 11400000, guid: 2d029f696c9548a409b0d6e108e297a0, type: 2}
+  - {fileID: 11400000, guid: f3a012665beaa984eaf7e596852efd62, type: 2}
+  - {fileID: 11400000, guid: 5c8c2e0e62c0ab44a92a353e9863b088, type: 2}
+  - {fileID: 11400000, guid: 7408b861d2668bc4f97cd30799cae0b0, type: 2}
+  - {fileID: 11400000, guid: 79c052a478d68ab4d8f4bf36f3996196, type: 2}
+  - {fileID: 11400000, guid: 334329038685be84599cef51b459d531, type: 2}
+  - {fileID: 11400000, guid: dd5691759646b5648846ff8f12ea2d26, type: 2}
+  - {fileID: 11400000, guid: e4c8a43b9a6fb164b9b2ccffad5acba7, type: 2}
+  - {fileID: 11400000, guid: 69ce4fc0e12c78c409397260ddcb664f, type: 2}
+  - {fileID: 11400000, guid: f69205f32a22c5f44bc51d5cbe08da02, type: 2}
+  - {fileID: 11400000, guid: 3d30adb0a86fe6c45ab4591294e16761, type: 2}
+  - {fileID: 11400000, guid: f03457c0479b786488635fa033a00c15, type: 2}
+  - {fileID: 11400000, guid: 132538315f1903e44a7675313ac14fae, type: 2}
+  - {fileID: 11400000, guid: 7b933c249342dbb4f8464e317125534e, type: 2}

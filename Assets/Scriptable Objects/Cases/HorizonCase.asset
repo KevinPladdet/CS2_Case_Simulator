@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   caseName: Horizon
   caseImage: {fileID: 21300000, guid: 3de99d08f3185e64ba6c9fc9a64c3bb6, type: 3}
+  collectionImage: {fileID: 21300000, guid: da6272c1d44971948a1c90457858d2ea, type: 3}
   keyImage: {fileID: 21300000, guid: 52cfbe8dbafe42b4190d38f17af75a81, type: 3}
   keys: 0
   caseSkins:

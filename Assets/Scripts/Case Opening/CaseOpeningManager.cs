@@ -54,7 +54,6 @@ public class CaseOpeningManager : MonoBehaviour
     public List<GameObject> caseMenuWeaponShowcases = new List<GameObject>(); // List of showcases for displaying skins in the case menu
 
     [Header("Key Management")]
-    public TextMeshProUGUI keyCountText; // UI text for displaying the number of keys
     public Image keyImage; // UI image for the keys
     public TextMeshProUGUI keyNameText; // UI text for the key name
     public TextMeshProUGUI keyNameTextTwo; // UI text for the key name
@@ -331,11 +330,6 @@ public class CaseOpeningManager : MonoBehaviour
     // Method to update the key UI with the current number of keys for the selected case
     public void UpdateKeyUI()
     {
-        if (keyCountText != null && currentCase != null)
-        {
-            keyCountText.text = currentCase.keys.ToString();
-        }
-
         if (UnlockButton != null)
         {
             UnlockButton.SetActive(currentCase != null && currentCase.keys > 0); // Enable UnlockButton if keys are available, otherwise disable it
