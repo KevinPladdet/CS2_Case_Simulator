@@ -49,11 +49,6 @@ public class CaseOpeningManager : MonoBehaviour
 
     // Case Rarity Odds
     private Dictionary<Color32, float> rarityDropChances; // Dictionary for drop chances based on rarity
-    private float blueOdds = 79.92f;
-    private float purpleOdds = 15.98f;
-    private float pinkOdds = 3.2f;
-    private float redOdds = 0.64f;
-    private float goldOdds = 0.26f;
 
     private Coroutine caseOpeningRoutine; // Coroutine for the case opening animation
 
@@ -90,11 +85,11 @@ public class CaseOpeningManager : MonoBehaviour
             // Define the drop chances based on rarity
             rarityDropChances = new Dictionary<Color32, float>()
             {
-                { new Color32(81, 103, 241, 255), blueOdds },  // Blue
-                { new Color32(132, 73, 247, 255), purpleOdds },  // Purple
-                { new Color32(190, 48, 205, 255), pinkOdds },    // Pink
-                { new Color32(206, 73, 74, 255), redOdds },    // Red
-                { new Color32(239, 215, 55, 255), goldOdds }    // Gold
+                { new Color32(81, 103, 241, 255), 79.92f },  // Blue
+                { new Color32(132, 73, 247, 255), 15.98f },  // Purple
+                { new Color32(190, 48, 205, 255), 3.2f },    // Pink
+                { new Color32(206, 73, 74, 255), 0.64f },    // Red
+                { new Color32(239, 215, 55, 255), 0.26f }    // Gold
             };
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
@@ -660,20 +655,26 @@ public class CaseOpeningManager : MonoBehaviour
         if (toggle)
         {
             Debug.Log("on");
-            blueOdds = 79.92f;
-            purpleOdds = 15.98f;
-            pinkOdds = 3.2f;
-            redOdds = 0.64f;
-            goldOdds = 10000000f;
+            rarityDropChances = new Dictionary<Color32, float>()
+            {
+                { new Color32(81, 103, 241, 255), 79.92f },  // Blue
+                { new Color32(132, 73, 247, 255), 15.98f },  // Purple
+                { new Color32(190, 48, 205, 255), 3.2f },    // Pink
+                { new Color32(206, 73, 74, 255), 0.64f },    // Red
+                { new Color32(239, 215, 55, 255), 10000000f }// Gold
+            };
         }
         else
         {
             Debug.Log("off");
-            blueOdds = 79.92f;
-            purpleOdds = 15.98f;
-            pinkOdds = 3.2f;
-            redOdds = 0.64f;
-            goldOdds = 0.26f;
+            rarityDropChances = new Dictionary<Color32, float>()
+            {
+                { new Color32(81, 103, 241, 255), 79.92f },  // Blue
+                { new Color32(132, 73, 247, 255), 15.98f },  // Purple
+                { new Color32(190, 48, 205, 255), 3.2f },    // Pink
+                { new Color32(206, 73, 74, 255), 0.64f },    // Red
+                { new Color32(239, 215, 55, 255), 0.26f }    // Gold
+            };
         }
     }
 }
