@@ -11,7 +11,7 @@ public class CaseOpeningManager : MonoBehaviour
     public GameObject weaponShowcasePrefab;
     public Transform openingContents; // Contains every weapon showcase for the opening menu
     [SerializeField] private Transform winLine;
-    
+
     [Header("After Pull Menu")]
     [SerializeField] private GameObject afterPullMenu;
     [SerializeField] private TextMeshProUGUI floatValueText;
@@ -47,7 +47,14 @@ public class CaseOpeningManager : MonoBehaviour
     [Header("Cases")]
     public Case currentCase; // The case that is currently selected in the case menu
 
+    // Case Rarity Odds
     private Dictionary<Color32, float> rarityDropChances; // Dictionary for drop chances based on rarity
+    private float blueOdds = 79.92f;
+    private float purpleOdds = 15.98f;
+    private float pinkOdds = 3.2f;
+    private float redOdds = 0.64f;
+    private float goldOdds = 0.26f;
+
     private Coroutine caseOpeningRoutine; // Coroutine for the case opening animation
 
     [Header("Case Menu Weapon Showcases")]
@@ -83,11 +90,11 @@ public class CaseOpeningManager : MonoBehaviour
             // Define the drop chances based on rarity
             rarityDropChances = new Dictionary<Color32, float>()
             {
-                { new Color32(81, 103, 241, 255), 79.92f },  // Blue
-                { new Color32(132, 73, 247, 255), 15.98f },  // Purple
-                { new Color32(190, 48, 205, 255), 3.2f },    // Pink
-                { new Color32(206, 73, 74, 255), 0.64f },    // Red
-                { new Color32(239, 215, 55, 255), 0.26f }    // Gold
+                { new Color32(81, 103, 241, 255), blueOdds },  // Blue
+                { new Color32(132, 73, 247, 255), purpleOdds },  // Purple
+                { new Color32(190, 48, 205, 255), pinkOdds },    // Pink
+                { new Color32(206, 73, 74, 255), redOdds },    // Red
+                { new Color32(239, 215, 55, 255), goldOdds }    // Gold
             };
 
             UpdateCaseMenuShowcases(); // Update the showcases with skins for the case menu
@@ -488,13 +495,12 @@ public class CaseOpeningManager : MonoBehaviour
                         break;
                     }
                 }
-                
+
                 // Change the rarityLineImage color to the color of the rarityImage
                 rarityLineImage.color = rarityImage.color;
 
                 // Play the appropriate sound effect for the winning showcase
                 PlayItemDropSound(winningShowcase);
-                
                 break;
             }
 
@@ -646,6 +652,28 @@ public class CaseOpeningManager : MonoBehaviour
         else
         {
             Debug.LogError("No case selected.");
+        }
+    }
+
+    public void AlwaysGetGold(bool toggle)
+    {
+        if (toggle)
+        {
+            Debug.Log("on");
+            blueOdds = 79.92f;
+            purpleOdds = 15.98f;
+            pinkOdds = 3.2f;
+            redOdds = 0.64f;
+            goldOdds = 10000000f;
+        }
+        else
+        {
+            Debug.Log("off");
+            blueOdds = 79.92f;
+            purpleOdds = 15.98f;
+            pinkOdds = 3.2f;
+            redOdds = 0.64f;
+            goldOdds = 0.26f;
         }
     }
 }

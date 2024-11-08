@@ -6,6 +6,7 @@ public class AdminHandler : MonoBehaviour
 {
 
     [SerializeField] private GameObject adminButton;
+    [SerializeField] private GameObject mainMenu;
 
     // Konami Code
     private KeyCode[] sequence = { KeyCode.UpArrow, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.B, KeyCode.A, KeyCode.Return };
@@ -14,7 +15,7 @@ public class AdminHandler : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && mainMenu.activeInHierarchy)
         {
             if (Input.GetKeyDown(sequence[sequenceIndex]))
             {

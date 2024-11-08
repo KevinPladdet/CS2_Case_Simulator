@@ -32092,6 +32092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adminButton: {fileID: 1661156885}
+  mainMenu: {fileID: 834043937}
 --- !u!4 &781937581
 Transform:
   m_ObjectHideFlags: 0
@@ -54592,9 +54593,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 789517429}
-        m_TargetAssemblyTypeName: SettingsMenu, Assembly-CSharp
-        m_MethodName: SetFullscreen
+      - m_Target: {fileID: 1215423179}
+        m_TargetAssemblyTypeName: CaseOpeningManager, Assembly-CSharp
+        m_MethodName: AlwaysGetGold
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
