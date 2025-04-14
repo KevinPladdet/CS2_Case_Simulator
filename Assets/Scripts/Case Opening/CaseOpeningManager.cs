@@ -194,14 +194,6 @@ public class CaseOpeningManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene("MainScene");
-        }
-    }
-
     // Remove all the weapon showcases from the case opening menu (so it can be respawned to open the case again)
     void RemoveWeaponShowcases()
     {
@@ -253,12 +245,6 @@ public class CaseOpeningManager : MonoBehaviour
     // Get a random skin from the current case based on rarity
     ShowcaseWeapon GetRandomSkinByRarity(bool includeGold = true)
     {
-        if (currentCase == null)
-        {
-            Debug.LogError("No case selected.");
-            return null;
-        }
-
         // Adjust rarityDropChances to enable / disable the chance for a gold
         Dictionary<Color32, float> adjustedRarityDropChances = new Dictionary<Color32, float>(rarityDropChances);
 
@@ -299,12 +285,6 @@ public class CaseOpeningManager : MonoBehaviour
     // Case menu weapon showcases get updated here
     void UpdateCaseMenuShowcases()
     {
-        if (caseMenuWeaponShowcases.Count == 0)
-        {
-            Debug.LogError("No weapon showcases assigned to the case menu.");
-            return;
-        }
-
         // Deactivate all showcases
         foreach (GameObject showcase in caseMenuWeaponShowcases)
         {
@@ -374,12 +354,6 @@ public class CaseOpeningManager : MonoBehaviour
         float speed = initialSpeed;
         RectTransform showcasePositionRect = weaponShowcasePrefab.transform.Find("ShowcasePosition")?.GetComponent<RectTransform>();
 
-        if (showcasePositionRect == null)
-        {
-            Debug.LogError("WeaponShowcasePrefab's 'ShowcasePosition' child does not have a RectTransform.");
-            yield break;
-        }
-
         while (true)
         {
             float winLineCenterX = winLine.position.x; // Gets the position of the winLine
@@ -393,28 +367,11 @@ public class CaseOpeningManager : MonoBehaviour
                 PlayScrollSound(showcase);
             }
 
-            // Ensure winningIndex is within bounds
-            if (winningIndex < 0 || winningIndex >= openingContents.childCount)
-            {
-                Debug.LogError("Winning showcase index is out of bounds.");
-                yield break;
-            }
-
             // Gets the position of the winning showcase
             Transform winningShowcase = openingContents.GetChild(winningIndex);
             Transform showcasePosition = winningShowcase.Find("ShowcasePosition");
-            if (showcasePosition == null)
-            {
-                Debug.LogError("Winning Showcase does not have a child named 'ShowcasePosition'.");
-                yield break;
-            }
 
             RectTransform winningShowcaseRect = showcasePosition.GetComponent<RectTransform>();
-            if (winningShowcaseRect == null)
-            {
-                Debug.LogError("ShowcasePosition does not have a RectTransform.");
-                yield break;
-            }
 
             // Calculate the world position of the winning showcase's center.
             Vector3 localCenter = new Vector3(winningShowcaseRect.rect.width * (winLineOffDistance + winningShowcaseRect.pivot.x), 0, 0);
@@ -567,11 +524,6 @@ public class CaseOpeningManager : MonoBehaviour
         float showcaseCenterX = showcase.position.x;
 
         RectTransform showcasePositionRect = showcase.Find("ShowcasePosition")?.GetComponent<RectTransform>();
-        if (showcasePositionRect == null)
-        {
-            Debug.LogError("Showcase does not have a 'ShowcasePosition' RectTransform.");
-            return;
-        }
 
         Vector3 localRightEdge = new Vector3(showcasePositionRect.rect.width * (3.11f + showcasePositionRect.pivot.x), 0, 0);
         Vector3 worldRightEdge = showcasePositionRect.TransformPoint(localRightEdge);
